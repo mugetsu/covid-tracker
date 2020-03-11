@@ -1,8 +1,6 @@
 <template>
   <div>
-    <Map
-      :confirmed="confirmed"
-      :dead="deaths" />
+    <Map :confirmed="confirmed" />
   </div>
 </template>
 
@@ -11,21 +9,17 @@ import { mapGetters } from 'vuex'
 import Map from '~/components/Map'
 
 export default {
+  loading: false,
   components: {
     Map
   },
   computed: {
     ...mapGetters([
-      'confirmed',
-      'deaths'
+      'confirmed'
     ])
   },
   data() {
-    return {
-    }
+    return {}
   }
 }
 </script>
-
-<style lang="scss">
-</style>

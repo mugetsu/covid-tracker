@@ -9,6 +9,7 @@ export default {
             latest,
             recovered
           } = res.data
+          commit('SET_DATA', res.data)
           commit('SET_CONFIRMED', confirmed)
           commit('SET_DEATHS', deaths)
           commit('SET_LATEST', latest)

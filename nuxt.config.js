@@ -117,6 +117,7 @@ module.exports = {
       }
     },
     extend(config, ctx) {
+      config.module.noParse = /(mapbox-gl)\.js$/
     }
   }
 }
