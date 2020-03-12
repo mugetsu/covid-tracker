@@ -66,7 +66,7 @@ module.exports = {
   ** Axios configuration
   */
   axios: {
-    baseURL: process.env.API_URL
+    baseURL: process.env.API_URL || 'http://localhost:3000/'
   },
 
   /*
