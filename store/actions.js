@@ -5,15 +5,15 @@ export default {
         if (res.status === 200) {
           const {
             confirmed,
-            deaths,
-            latest,
-            recovered
+            recovered,
+            deaths
+            // latest
           } = res.data
           commit('SET_DATA', res.data)
           commit('SET_CONFIRMED', confirmed)
-          commit('SET_DEATHS', deaths)
-          commit('SET_LATEST', latest)
           commit('SET_RECOVERED', recovered)
+          commit('SET_DEATHS', deaths)
+          // commit('SET_LATEST', latest)
         }
       })
       .catch(err => {

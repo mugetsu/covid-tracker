@@ -12,6 +12,13 @@ module.exports = {
   mode: 'universal',
 
   /*
+  ** Environment variables
+  */
+  env: {
+    accessToken: process.env.MAPBOX_TOKEN
+  },
+
+  /*
   ** Headers of the page
   */
   head: {
@@ -38,7 +45,9 @@ module.exports = {
   /*
   ** Global CSS
   */
- css: [],
+ css: [
+   { src: 'mapbox-gl/dist/mapbox-gl.css', lang: 'css' }
+ ],
 
   /*
   ** Plugins to load before mounting the App
@@ -57,11 +66,7 @@ module.exports = {
   ** Axios configuration
   */
   axios: {
-    baseURL: process.env.API_URL || 'http://localhost:3000/'
-    // redirectError: {
-    //   401: '/login',
-    //   404: '/notfound'
-    // }
+    baseURL: process.env.API_URL
   },
 
   /*
@@ -83,13 +88,6 @@ module.exports = {
   router: {
     ...routerBase
   },
-
-  /*
-  ** Server middleware
-  */
-  // serverMiddleware: {
-  //   '/confirmed': '~/api/confirmed.js'
-  // },
 
   /*
   ** Build configuration

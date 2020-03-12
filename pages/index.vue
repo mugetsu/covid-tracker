@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Map :confirmed="confirmed" />
+    <Map :data="data" />
   </div>
 </template>
 
@@ -15,7 +15,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'confirmed'
+      'data'
     ])
   },
   data() {

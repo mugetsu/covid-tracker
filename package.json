@@ -14,7 +14,7 @@
     "generate": "nuxt generate",
     "test": "jest",
     "build:gh-pages": "cross-env NODE_ENV=production DEPLOY_ENV=GH_PAGES nuxt build",
-    "generate:gh-pages": "cross-env NODE_ENV=production DEPLOY_ENV=GH_PAGES nuxt generate && firebase deploy --only hosting"
+    "generate:gh-pages": "cross-env NODE_ENV=production DEPLOY_ENV=GH_PAGES nuxt generate"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.9.5",

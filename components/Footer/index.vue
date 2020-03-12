@@ -1,12 +1,20 @@
 <template>
-  <footer>
-    <p>© 2020</p>
-  </footer>
+  <div class="wrap-footer">
+    <footer>
+      <Search />
+      <!-- <p>© 2020 COVID-19 Tracker</p> -->
+    </footer>
+  </div>
 </template>
 
 <script>
+import Search from '~/components/Search'
+
 export default {
   name: 'Footer',
+  components: {
+    Search
+  },
   data() {
     return {}
   }
@@ -14,10 +22,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-footer {
-  font-weight: 300;
-  font-size: 1.2rem;
-  text-align: center;
-  text-transform: uppercase;
+.wrap-footer {
+  position: relative;
+  z-index: 1;
+  padding: 0 16px;
+  flex-shrink: 0;
+
+  footer {
+    font-weight: 300;
+    font-size: 1rem;
+    text-align: right;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
 }
 </style>

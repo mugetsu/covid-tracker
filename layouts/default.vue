@@ -1,14 +1,10 @@
 <template>
   <div class="wrapper">
-    <div class="wrap-header">
-      <Header />
-    </div>
+    <Header />
     <div class="main-content">
       <nuxt />
     </div>
-    <div class="wrap-footer">
-      <Footer />
-    </div>
+    <Footer />
   </div>
 </template>
 
@@ -48,7 +44,7 @@ body {
   font-weight: 400;
   color: #000000;
   letter-spacing: 0.1rem;
-  background-color: #ffffff;
+  background-color: rgba(18, 18, 18, 1);
 }
 
 .wrapper {
@@ -56,12 +52,6 @@ body {
   width: 100%;
   display: flex;
   flex-direction: column;
-}
-
-.wrap-header,
-.wrap-footer {
-  padding: 0 16px;
-  flex-shrink: 0;
 }
 
 .main-content {
