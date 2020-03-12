@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Footer renders properly 1`] = `
-<footer>
-  <p>© 2020 Randell Quitain</p>
-</footer>
+<div class="wrap-footer">
+  <footer>
+    <search-stub></search-stub>
+  </footer>
+</div>
 `;

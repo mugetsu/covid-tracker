@@ -1,3 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Header renders properly 1`] = `<header></header>`;
+exports[`Header renders properly 1`] = `
+<div class="wrap-header">
+  <header></header>
+</div>
+`;
