@@ -1,6 +1,9 @@
 {
   "name": "personal",
   "version": "1.0.0",
+  "engines": {
+    "node": "10.16.0"
+  },
   "description": "personal site powered by nuxt + vue",
   "author": {
     "name": "Randell Quitain",
