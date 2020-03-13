@@ -9,7 +9,6 @@ import { mapGetters } from 'vuex'
 import Map from '~/components/Map'
 
 export default {
-  loading: false,
   components: {
     Map
   },

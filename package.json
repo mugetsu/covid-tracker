@@ -13,8 +13,7 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "test": "jest",
-    "build:gh-pages": "cross-env NODE_ENV=production DEPLOY_ENV=GH_PAGES nuxt build",
-    "generate:gh-pages": "cross-env NODE_ENV=production DEPLOY_ENV=GH_PAGES nuxt generate"
+    "heroku-postbuild": "npm run build"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.9.5",
