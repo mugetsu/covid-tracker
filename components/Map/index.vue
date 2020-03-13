@@ -24,7 +24,7 @@ export default {
         container: 'map',
         style: 'mapbox://styles/mapbox/dark-v10',
         center: [122, 13],
-        zoom: 3
+        zoom: 1.6
       })
 
       let markers = {}
@@ -154,10 +154,10 @@ export default {
           .addTo(map)
       })
 
-      map.on('mouseenter', 'clusters', () => map.getCanvas().style.cursor = 'pointer')
-      map.on('mouseleave', 'clusters', () => map.getCanvas().style.cursor = '')
-      map.on('mouseenter', 'unclustered-point', () => map.getCanvas().style.cursor = 'pointer')
-      map.on('mouseleave', 'unclustered-point', () => map.getCanvas().style.cursor = '')
+      map.on('mouseenter', 'clusters', _ => map.getCanvas().style.cursor = 'pointer')
+      map.on('mouseleave', 'clusters', _ => map.getCanvas().style.cursor = '')
+      map.on('mouseenter', 'unclustered-point', _ => map.getCanvas().style.cursor = 'pointer')
+      map.on('mouseleave', 'unclustered-point', _ => map.getCanvas().style.cursor = '')
     }
   },
   mounted() {

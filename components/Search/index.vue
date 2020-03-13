@@ -46,7 +46,7 @@ export default {
     transform: translate3d(0, 0px, 0);
   }
   100% {
-    transform: translate3d(0, 8px, 0);
+    transform: translate3d(0, 5px, 0);
   }
 }
 </style>
