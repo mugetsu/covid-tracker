@@ -1,6 +1,5 @@
 const webpack = require('webpack')
 const pkg = require('./package')
-const _ = require('lodash')
 
 if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
