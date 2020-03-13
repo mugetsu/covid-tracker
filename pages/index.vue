@@ -86,7 +86,7 @@ export default {
 <style lang="scss" scoped>
 .is-open {
   .covid-map {
-    transform: translate3d(0, 93.7%, 0);
+    transform: translate3d(0, 92vh, 0);
   }
 }
 
@@ -141,11 +141,11 @@ export default {
 }
 
 .icon {
-  position: absolute;
+  position: relative;
   left: 50%;
   bottom: 0;
   z-index: 1;
-  transform: translate3d(0, -16px, 0);
+  transform: translate3d(-32px, calc(-10vh - 32px), 0);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -154,7 +154,22 @@ export default {
   height: 64px;
   cursor: pointer;
   background-color: rgba(153, 0, 0, 1);
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px -1px, rgba(0, 0, 0, 0.14) 0px 4px 5px 0px, rgba(0, 0, 0, 0.12) 0px 1px 10px 0px;
   transition: .8s ease;
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+	0% {
+		box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+		transform: translate3d(-32px, calc(-10vh - 32px), 0);
+	}
+	50% {
+		box-shadow: 0 25px 15px 0px rgba(0, 0, 0, 0.2);
+		transform: translate3d(-32px, calc(-10vh - 16px), 0);
+	}
+	100% {
+		box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+		transform: translate3d(-32px, calc(-10vh - 32px), 0);
+	}
 }
 </style>
