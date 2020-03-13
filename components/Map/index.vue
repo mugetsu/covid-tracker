@@ -31,7 +31,7 @@ export default {
         zoom: 1.6
       })
 
-      map.addControl(new mapboxgl.NavigationControl())
+      // map.addControl(new mapboxgl.NavigationControl())
 
       const addLayers = map => {
         map.addSource('covid', {
@@ -55,11 +55,11 @@ export default {
             'circle-color': [
               'step',
               ['get', 'point_count'],
-              '#ffa332',
+              '#ffdb99',
               2,
-              '#ff9719',
+              '#ffc04c',
               4,
-              '#ff8c00'
+              '#ffa500'
             ],
             'circle-radius': [
               'step',
@@ -91,10 +91,10 @@ export default {
           source: 'covid',
           filter: ['!', ['has', 'point_count']],
           paint: {
-            'circle-color': '#ffa332',
+            'circle-color': '#ffa500',
             'circle-radius': 7,
             'circle-stroke-width': 1,
-            'circle-stroke-color': '#ffa332'
+            'circle-stroke-color': '#ffa500'
           }
         })
       }
@@ -168,16 +168,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-body {
-  margin: 0;
-  padding: 0;
-}
-
 #map {
   position: absolute;
   top: 0;
   bottom: 0;
   width: 100%;
+  height: 100%;
 }
 
 /deep/ .popup {
@@ -189,7 +185,7 @@ body {
     }
     &.item_confirmed {
       span:last-child {
-        color: #ffa332;
+        color: #ffa500;
       }
     }
     &.item_recovered {

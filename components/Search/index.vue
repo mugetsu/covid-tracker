@@ -1,5 +1,14 @@
 <template>
-  <div class="search">
+  <div
+    class="search"
+    :class="{
+      'is-open': isOpen
+    }">
+    <div class="form">
+      <!-- <select>
+        <option value="">Test</option>
+      </select> -->
+    </div>
     <div
       class="icon"
       @click="onClick">
@@ -12,10 +21,13 @@
 export default {
   name: 'Search',
   data() {
-    return {}
+    return {
+      isOpen: false
+    }
   },
   methods: {
     onClick() {
+      this.isOpen = !this.isOpen
       console.log('clicked')
     }
   }
@@ -23,30 +35,50 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.search {
+  position: absolute; 
+  z-index: 1;
+  bottom: 0;
+  width: 100%;
+  height: 0;
+  transition: .5s ease;
+
+  &.is-open {
+    // width: 80vw;
+
+    .icon {
+      // transform: translate3d(calc(-80vw + 32px), -50%, 0);
+    }
+  }
+}
+
+.form {
+  // position: absolute;
+  // z-index: 1;
+	// width: 100%;
+  // height: 100vh;
+  // background-color: #1e1e1e;
+	// box-shadow: 0px 0px 24px rgba(153, 0, 0, 1);
+  // overflow: hidden;
+  // background-color: rgba(39, 39, 39, 1);
+  // box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px -1px, rgba(0, 0, 0, 0.14) 0px 4px 5px 0px, rgba(0, 0, 0, 0.12) 0px 1px 10px 0px;
+}
+
 .icon {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 1;
+  transform: translate3d(0, -16px, 0);
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 100%;
-  margin: 16px auto;
   width: 64px;
   height: 64px;
   cursor: pointer;
-  background-color: rgba(39, 39, 39, 1);
+  background-color: rgba(153, 0, 0, 1);
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px -1px, rgba(0, 0, 0, 0.14) 0px 4px 5px 0px, rgba(0, 0, 0, 0.12) 0px 1px 10px 0px;
-  animation: float-up 1s infinite alternate;
-
-  &:hover {
-    animation-play-state: paused;
-  }
-}
-
-@keyframes float-up {
-  0% {
-    transform: translate3d(0, 0px, 0);
-  }
-  100% {
-    transform: translate3d(0, 5px, 0);
-  }
+  transition: .5s ease;
 }
 </style>

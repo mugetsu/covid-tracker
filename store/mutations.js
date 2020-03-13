@@ -47,5 +47,8 @@ export default {
       })
     })
     state.data = dataCollection
+  },
+  SET_LATEST: (state, latest) => {
+    state.latest = latest
   }
 }

@@ -3,11 +3,9 @@ export default {
     await this.$axios.get('/all')
       .then(res => {
         if (res.status === 200) {
-          // const {
-          //   latest
-          // } = res.data
+          const { latest } = res.data
           commit('SET_DATA', res.data)
-          // commit('SET_LATEST', latest)
+          commit('SET_LATEST', latest)
         }
       })
       .catch(err => {
