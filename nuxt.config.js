@@ -2,10 +2,6 @@ const webpack = require('webpack')
 const pkg = require('./package')
 const _ = require('lodash')
 
-const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
-  base: `/${process.env.REPO_NAME}/`
-} : {}
-
 if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
 module.exports = {
@@ -85,9 +81,7 @@ module.exports = {
   /*
   ** Router middleware
   */
-  router: {
-    ...routerBase
-  },
+  router: {},
 
   /*
   ** Build configuration
