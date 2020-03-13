@@ -10,7 +10,6 @@ export default {
       type: 'FeatureCollection',
       features: []
     }
-    // const toCollection = (status, locations, collection) => {
     confirmed.locations.forEach((location, index) => {
       const recovered_locations = recovered.locations[index]
       const dead_locations = deaths.locations[index]
@@ -47,10 +46,6 @@ export default {
         }
       })
     })
-    // }
-    // toCollection('confirmed', confirmed.locations, dataCollection)
-    // toCollection('recovered', recovered.locations, dataCollection)
-    // toCollection('dead', deaths.locations, dataCollection)
     state.data = dataCollection
   }
 }

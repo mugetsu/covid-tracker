@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const pkg = require('./package')
+const _ = require('lodash')
 
 const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
   base: `/${process.env.REPO_NAME}/`
@@ -14,8 +15,7 @@ module.exports = {
   ** Environment variables
   */
   env: {
-    accessToken: process.env.MAPBOX_TOKEN,
-    apiUrl: process.env.API_URL
+    accessToken: process.env.MAPBOX_TOKEN
   },
 
   /*
@@ -52,16 +52,35 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [
-    '~/plugins/axios'
-  ],
+  plugins: [],
 
   /*
   ** Nuxt.js modules
   */
   modules: [
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/pwa'
   ],
+
+  /*
+  ** Axios configuration
+  */
+  axios: {
+    baseURL: process.env.API_URL || 'http://localhost:3000/'
+  },
+
+  /*
+  ** PWA configuration
+  */
+  pwa: {
+    manifest: {
+      name: pkg.author.name,
+      short_name: pkg.author.name.split(' ')[0]
+    },
+    icons: {
+      sizes: [16, 32, 180, 192, 512]
+    }
+  },
 
   /*
   ** Router middleware

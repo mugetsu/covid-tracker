@@ -18,6 +18,10 @@ export default {
       const mapboxgl = require('mapbox-gl/dist/mapbox-gl')
       mapboxgl.accessToken = token
 
+      let totals
+      let markers = {}
+      let markersOnScreen = {}
+      let point_counts = []
       const colors = ['#ffa332', '#66a266', '#b20000']
 
       const map = new mapboxgl.Map({
@@ -27,10 +31,7 @@ export default {
         zoom: 1.6
       })
 
-      let markers = {}
-      let markersOnScreen = {}
-      let point_counts = []
-      let totals
+      map.addControl(new mapboxgl.NavigationControl())
 
       const addLayers = map => {
         map.addSource('covid', {
@@ -114,7 +115,7 @@ export default {
 
             map.easeTo({
               center: features[0].geometry.coordinates,
-              zoom: map.getZoom() + 1
+              zoom: zoom
             })
           })
       })
