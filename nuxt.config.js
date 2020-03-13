@@ -1,6 +1,5 @@
 const webpack = require('webpack')
 const pkg = require('./package')
-const _ = require('lodash')
 
 const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
   base: `/${process.env.REPO_NAME}/`
@@ -16,7 +15,7 @@ module.exports = {
   */
   env: {
     accessToken: process.env.MAPBOX_TOKEN,
-    apiUrl: process.env.API_URL || 'http://localhost:3000/'
+    apiUrl: process.env.API_URL
   },
 
   /*
@@ -53,7 +52,9 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [],
+  plugins: [
+    '~/plugins/axios'
+  ],
 
   /*
   ** Nuxt.js modules

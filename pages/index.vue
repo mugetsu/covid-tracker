@@ -8,8 +8,8 @@
 import Map from '~/components/Map'
 
 export default {
-  async fetch ({ app: { $axios }, store, params }) {
-    const { data } = await $axios.get(`${process.env.apiUrl}/all`)
+  async fetch ({ app: { $api }, store, params }) {
+    const { data } = await $api.get('/all')
     store.commit('SET_DATA', data)
   },
   components: {
