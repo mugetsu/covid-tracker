@@ -1,25 +1,19 @@
 <template>
   <div>
-    <Map :data="data" />
+    <Map :data="$store.state.data" />
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import Map from '~/components/Map'
 
 export default {
-  loading: false,
+  async fetch ({ app: { $axios }, store, params }) {
+    const { data } = await $axios.get(`${process.env.apiUrl}/all`)
+    store.commit('SET_DATA', data)
+  },
   components: {
     Map
-  },
-  computed: {
-    ...mapGetters([
-      'data'
-    ])
-  },
-  data() {
-    return {}
   }
 }
 </script>

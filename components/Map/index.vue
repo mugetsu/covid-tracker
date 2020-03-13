@@ -154,13 +154,10 @@ export default {
           .addTo(map)
       })
 
-      map.on('mouseenter', 'clusters', function() {
-        map.getCanvas().style.cursor = 'pointer'
-      })
-
-      map.on('mouseleave', 'clusters', function() {
-        map.getCanvas().style.cursor = ''
-      })
+      map.on('mouseenter', 'clusters', () => map.getCanvas().style.cursor = 'pointer')
+      map.on('mouseleave', 'clusters', () => map.getCanvas().style.cursor = '')
+      map.on('mouseenter', 'unclustered-point', () => map.getCanvas().style.cursor = 'pointer')
+      map.on('mouseleave', 'unclustered-point', () => map.getCanvas().style.cursor = '')
     }
   },
   mounted() {

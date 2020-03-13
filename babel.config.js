@@ -9,11 +9,19 @@ module.exports = function(api) {
         [
           '@babel/preset-env',
           {
+            modules: 'commonjs',
             targets: {
               node: 'current'
             }
           }
         ]
+      ],
+      plugins: [
+        'syntax-dynamic-import',
+        ['transform-runtime', {
+          polyfill: false,
+          regenerator: true
+        }]
       ]
     }
   }

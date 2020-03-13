@@ -15,7 +15,8 @@ module.exports = {
   ** Environment variables
   */
   env: {
-    accessToken: process.env.MAPBOX_TOKEN
+    accessToken: process.env.MAPBOX_TOKEN,
+    apiUrl: process.env.API_URL || 'http://localhost:3000/'
   },
 
   /*
@@ -58,29 +59,8 @@ module.exports = {
   ** Nuxt.js modules
   */
   modules: [
-    '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/axios'
   ],
-
-  /*
-  ** Axios configuration
-  */
-  axios: {
-    baseURL: process.env.API_URL || 'http://localhost:3000/'
-  },
-
-  /*
-  ** PWA configuration
-  */
-  pwa: {
-    manifest: {
-      name: pkg.author.name,
-      short_name: pkg.author.name.split(' ')[0]
-    },
-    icons: {
-      sizes: [16, 32, 180, 192, 512]
-    }
-  },
 
   /*
   ** Router middleware

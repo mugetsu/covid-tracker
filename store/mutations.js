@@ -52,44 +52,5 @@ export default {
     // toCollection('recovered', recovered.locations, dataCollection)
     // toCollection('dead', deaths.locations, dataCollection)
     state.data = dataCollection
-  },
-  SET_CONFIRMED: (state, confirmed) => {
-    const { locations } = confirmed
-    const confirmedCollection = {
-      type: 'FeatureCollection',
-      features: []
-    }
-    locations.forEach((location, index) => {
-      const cluster_id = location.country_code + (location.province ? `_${location.province}` : '') + `_${index}`
-      confirmedCollection.features.push({
-        type: 'Feature',
-        properties: {
-          cluster_id: cluster_id,
-          state: 1,
-          country: location.country,
-          country_code: location.country_code,
-          history: location.history,
-          latest: location.latest,
-          province: location.province
-        },
-        geometry: {
-          type: 'Point',
-          coordinates: [
-            location.coordinates.long,
-            location.coordinates.lat
-          ]
-        }
-      })
-    })
-    state.confirmed = confirmedCollection
-  },
-  SET_RECOVERED: (state, recovered) => {
-    state.recovered = recovered
-  },
-  SET_DEATHS: (state, deaths) => {
-    state.deaths = deaths
-  },
-  SET_LATEST: (state, latest) => {
-    state.latest = latest
   }
 }

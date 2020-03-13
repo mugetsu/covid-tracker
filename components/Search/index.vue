@@ -35,14 +35,18 @@ export default {
   background-color: rgba(39, 39, 39, 1);
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px -1px, rgba(0, 0, 0, 0.14) 0px 4px 5px 0px, rgba(0, 0, 0, 0.12) 0px 1px 10px 0px;
   animation: float-up 1s infinite alternate;
+
+  &:hover {
+    animation-play-state: paused;
+  }
 }
 
 @keyframes float-up {
   0% {
-      transform: translate3d(0, 0px, 0);
- }
+    transform: translate3d(0, 0px, 0);
+  }
   100% {
-      transform: translate3d(0, 5px, 0);
- }
+    transform: translate3d(0, 8px, 0);
+  }
 }
 </style>
