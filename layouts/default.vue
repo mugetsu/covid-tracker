@@ -47,6 +47,10 @@ body {
   background-color: rgba(18, 18, 18, 1);
 }
 
+p {
+  margin: 0;
+}
+
 .wrapper {
   min-height: 100vh;
   width: 100%;

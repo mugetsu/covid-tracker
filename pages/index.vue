@@ -6,35 +6,45 @@
     }">
     <div class="covid-map">
       <Map :data="data" />
-    </div>
-    <div class="overview">
-      <h2 class="overview_confirmed">
-        Cases / 
-        <animated-number
-          v-if="isOpen && !isClosed"
-          :value="latest.confirmed"
-          :formatValue="formatNumber"
-          :duration="duration" />
-      </h2>
-      <h2 class="overview_recovered">
-        Recovered / 
-        <animated-number
-          v-if="isOpen && !isClosed"
-          :value="latest.recovered"
-          :formatValue="formatNumber"
-          :duration="duration" />
-      </h2>
-      <h2 class="overview_deaths">
-        Deaths / 
-        <animated-number
-          v-if="isOpen && !isClosed"
-          :value="latest.deaths"
-          :formatValue="formatNumber"
-          :duration="duration" />
-      </h2>
       <p class="reference">
         Data Provided by <a href="https://github.com/CSSEGISandData/COVID-19" target="_BLANK">JHU CSSE</a>
       </p>
+    </div>
+    <div class="overview">
+      <Drawer>
+        <DrawerItem title="COVID-19">
+          <p class="cases cases_confirmed">
+            Cases / 
+            <animated-number
+              v-if="isOpen && !isClosed"
+              :value="latest.confirmed"
+              :formatValue="formatNumber"
+              :duration="duration" />
+          </p>
+          <p class="cases cases_recovered">
+            Recovered / 
+            <animated-number
+              v-if="isOpen && !isClosed"
+              :value="latest.recovered"
+              :formatValue="formatNumber"
+              :duration="duration" />
+          </p>
+          <p class="cases cases_deaths">
+            Deaths / 
+            <animated-number
+              v-if="isOpen && !isClosed"
+              :value="latest.deaths"
+              :formatValue="formatNumber"
+              :duration="duration" />
+          </p>
+        </DrawerItem>
+        <DrawerItem title="TIMELINE">
+          <p>FEATURE TO BE ADDED SOON</p>
+        </DrawerItem>
+        <DrawerItem title="SEARCH">
+          <p>FEATURE TO BE ADDED SOON</p>
+        </DrawerItem>
+      </Drawer>
     </div>
     <div
       class="icon"
@@ -47,11 +57,15 @@
 <script>
 import { mapGetters } from 'vuex'
 import Map from '~/components/Map'
+import Drawer from '~/components/Drawer'
+import DrawerItem from '~/components/DrawerItem'
 import AnimatedNumber from 'animated-number-vue'
 
 export default {
   components: {
     Map,
+    Drawer,
+    DrawerItem,
     AnimatedNumber
   },
   computed: {
@@ -84,9 +98,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.is-open {
-  .covid-map {
-    transform: translate3d(0, 92vh, 0);
+
+.covid {
+  position: absolute;
+  height: 100vh;
+  overflow: hidden;
+
+  &.is-open {
+    .covid-map {
+      transform: translate3d(0, 92vh, 0);
+    }
+
+    .icon {
+
+    }
   }
 }
 
@@ -95,9 +120,28 @@ export default {
   z-index: 1;
   width: 100vw;
   height: 100vh;
+  background-color: #191a1a;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px -1px, rgba(0, 0, 0, 0.14) 0px 4px 5px 0px, rgba(0, 0, 0, 0.12) 0px 1px 10px 0px;
   transform: translate3d(0, 0%, 0);
   transition: transform 0.8s ease;
+
+  .reference {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 0;
+    padding: 8px;
+    font-size: 10px;
+    font-weight: 300;
+    text-transform: uppercase;
+    color: #ffffff;
+
+    a {
+      font-weight: 400;
+      text-decoration: none;
+      color: #ffffff;
+    }
+  }
 }
 
 .overview {
@@ -105,8 +149,17 @@ export default {
   z-index: 0;
   top: 0;
   left: 0;
-  padding: 32px 24px;
+  width: 100vw;
+  height: 100vh;
   color: #ffffff;
+}
+
+.cases {
+  margin-bottom: 12px;
+
+  span {
+    font-weight: 700;
+  }
 
   &_confirmed {
     span {
@@ -123,19 +176,6 @@ export default {
   &_deaths {
     span {
       color: #b20000;
-    }
-  }
-
-  .reference {
-    font-size: 10px;
-    font-weight: 300;
-    text-transform: uppercase;
-    color: #ffffff;
-
-    a {
-      font-weight: 400;
-      text-decoration: none;
-      color: #ffffff;
     }
   }
 }
