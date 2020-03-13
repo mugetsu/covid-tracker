@@ -18,10 +18,10 @@ install:
   - yarn generate:gh-pages
 
 deploy:
-  - provider: pages
-    skip_cleanup: true
-    github_token: $GITHUB_ACCESS_TOKEN
-    target_branch: gh-pages
-    local_dir: dist
-    on:
-      branch: master
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_ACCESS_TOKEN
+  target_branch: gh-pages
+  local_dir: dist
+  on:
+    branch: master
