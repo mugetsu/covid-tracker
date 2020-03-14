@@ -51,5 +51,8 @@ export default {
 			}, {})
     }
 		state.countries = groupProvinceByCountry(data.locations, 'country')
+  },
+  SET_COUNTRY_CASE: (state, country_case) => {
+		state.country_case = country_case
 	}
 }

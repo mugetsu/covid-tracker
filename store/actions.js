@@ -19,7 +19,15 @@ export default {
       })
   },
   getCasesByCountry({ state, commit }, payload) {
-    console.log(payload)
-    // console.log(state.data)
+    const country_case = state.data.features.filter(feature => {
+      if (payload.country) {
+        if (payload.province) {
+          return feature.properties.country === payload.country && feature.properties.province === payload.province
+        } else {
+          return feature.properties.country === payload.country
+        }
+      }
+    })
+    commit('SET_COUNTRY_CASE', country_case)
   }
 }

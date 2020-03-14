@@ -13,38 +13,18 @@
     <div class="overview">
       <Drawer>
         <DrawerItem title="COVID-19">
-          <p class="cases cases_confirmed">
-            Cases / 
-            <animated-number
-              v-if="isOpen && !isClosed"
-              :value="latest.confirmed"
-              :formatValue="formatNumber"
-              :duration="duration" />
-          </p>
-          <p class="cases cases_recovered">
-            Recovered / 
-            <animated-number
-              v-if="isOpen && !isClosed"
-              :value="latest.recovered"
-              :formatValue="formatNumber"
-              :duration="duration" />
-          </p>
-          <p class="cases cases_deaths">
-            Deaths / 
-            <animated-number
-              v-if="isOpen && !isClosed"
-              :value="latest.deaths"
-              :formatValue="formatNumber"
-              :duration="duration" />
-          </p>
-        </DrawerItem>
-        <DrawerItem title="TIMELINE">
-          <p>FEATURE TO BE ADDED SOON</p>
+          <Results
+            :items="results"
+            :duration="duration"
+            :show-value="isOpen && !isClosed" />
         </DrawerItem>
         <DrawerItem title="SEARCH">
           <Search
             :suggestions="countries"
             :selection.sync="country" />
+        </DrawerItem>
+        <DrawerItem title="TIMELINE">
+          <p>FEATURE TO BE ADDED SOON</p>
         </DrawerItem>
       </Drawer>
     </div>
@@ -62,22 +42,41 @@ import Map from '~/components/Map'
 import Drawer from '~/components/Drawer'
 import DrawerItem from '~/components/DrawerItem'
 import Search from '~/components/Search'
-import AnimatedNumber from 'animated-number-vue'
+import Results from '~/components/Results'
 
 export default {
   components: {
     Map,
     Drawer,
     DrawerItem,
-    AnimatedNumber,
-    Search
+    Search,
+    Results
   },
   computed: {
     ...mapGetters([
       'data',
       'latest',
       'countries'
-    ])
+    ]),
+    results() {
+      return [
+        {
+          label: 'Confirmed / ',
+          value: this.latest.confirmed,
+          color: '#ffa500'
+        },
+        {
+          label: 'Recovered / ',
+          value: this.latest.recovered,
+          color: '#66a266'
+        },
+        {
+          label: 'Deaths / ',
+          value: this.latest.deaths,
+          color: '#b20000'
+        }
+      ]
+    }
   },
   data() {
     return {
@@ -89,9 +88,6 @@ export default {
     }
   },
   methods: {
-    formatNumber(s) {
-      return s.toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
-    },
     onClick() {
       this.isOpen = !this.isOpen
       clearTimeout(this.timer)
@@ -158,33 +154,8 @@ export default {
   left: 0;
   width: 100vw;
   height: 100vh;
+  font-size: 24px;
   color: #ffffff;
-}
-
-.cases {
-  margin-bottom: 12px;
-
-  span {
-    font-weight: 700;
-  }
-
-  &_confirmed {
-    span {
-      color: #ffa500;
-    }
-  }
-
-  &_recovered {
-    span {
-      color: #66a266;
-    }
-  }
-
-  &_deaths {
-    span {
-      color: #b20000;
-    }
-  }
 }
 
 .icon {

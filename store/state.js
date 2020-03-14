@@ -1,5 +1,6 @@
 export default () => ({
   data: {},
   latest: {},
-  countries: []
+  countries: [],
+  country_case: []
 })
