@@ -15,6 +15,7 @@ export default {
   },
   methods: {
     createMap(token) {
+      const self = this
       const mapboxgl = require('mapbox-gl/dist/mapbox-gl')
       mapboxgl.accessToken = token
 
@@ -118,6 +119,12 @@ export default {
               zoom: zoom
             })
           })
+
+        self.$gtag('event', 'clustered', {
+          eventAction: 'click',
+          eventLabel: 'cluster click',
+          eventValue: clusterId
+        })
       })
 
       map.on('click', 'unclustered-point', function(e) {
@@ -153,6 +160,12 @@ export default {
             </div>
           `)
           .addTo(map)
+        
+        self.$gtag('event', 'unclustered', {
+          eventAction: 'click',
+          eventLabel: 'unclustered click',
+          eventValue: title
+        })
       })
 
       map.on('mouseenter', 'clusters', _ => map.getCanvas().style.cursor = 'pointer')

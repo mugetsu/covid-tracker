@@ -75,7 +75,6 @@ module.exports = {
   ** GTAG configuration
   */
  'google-gtag': {
-    debug: true,
     id: process.env.GA,
     config: {
       send_page_view: true
