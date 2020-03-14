@@ -22,7 +22,11 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
+      { hid: 'description', name: 'description', content: pkg.description },
+      { hid: 'og:title', property: 'og:title', content: 'COVID-19 Tracker' },
+      { hid: 'og:description', property: 'og:description', content: pkg.description },
+      { hid: 'og:image', property: 'og:image', content: 'https://covid-worldwide.herokuapp.com/icon.png' },
+      { hid: 'og:url', property: 'og:url', content: 'https://covid-worldwide.herokuapp.com' }
     ],
     link: [
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap' },
