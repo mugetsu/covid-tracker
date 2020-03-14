@@ -25,10 +25,10 @@ export default {
       this.items[this.activeItem].deactivate()
       this.items[newIndex].activate()
       this.activeItem = newIndex
-      this.$gtag('event', 'drawer', {
-        eventAction: 'change',
-        eventLabel: 'drawer change',
-        eventValue: this.items[this.activeItem].title
+      this.$gtag('event', 'click', {
+        event_category: 'drawer',
+        event_label: 'drawer click',
+        value: this.items[this.activeItem].title
       })
     }
   },

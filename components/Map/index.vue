@@ -120,10 +120,10 @@ export default {
             })
           })
 
-        self.$gtag('event', 'clustered', {
-          eventAction: 'click',
-          eventLabel: 'cluster click',
-          eventValue: clusterId
+        self.$gtag('event', 'click', {
+          event_category: 'clustered',
+          event_label: 'clustered click',
+          value: title
         })
       })
 
@@ -161,10 +161,10 @@ export default {
           `)
           .addTo(map)
         
-        self.$gtag('event', 'unclustered', {
-          eventAction: 'click',
-          eventLabel: 'unclustered click',
-          eventValue: title
+        self.$gtag('event', 'click', {
+          event_category: 'unclustered',
+          event_label: 'unclustered click',
+          value: title
         })
       })
 
