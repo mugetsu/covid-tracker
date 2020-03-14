@@ -42,7 +42,9 @@
           <p>FEATURE TO BE ADDED SOON</p>
         </DrawerItem>
         <DrawerItem title="SEARCH">
-          <p>FEATURE TO BE ADDED SOON</p>
+          <Search
+            :suggestions="countries"
+            :selection.sync="country" />
         </DrawerItem>
       </Drawer>
     </div>
@@ -59,6 +61,7 @@ import { mapGetters } from 'vuex'
 import Map from '~/components/Map'
 import Drawer from '~/components/Drawer'
 import DrawerItem from '~/components/DrawerItem'
+import Search from '~/components/Search'
 import AnimatedNumber from 'animated-number-vue'
 
 export default {
@@ -66,12 +69,14 @@ export default {
     Map,
     Drawer,
     DrawerItem,
-    AnimatedNumber
+    AnimatedNumber,
+    Search
   },
   computed: {
     ...mapGetters([
       'data',
-      'latest'
+      'latest',
+      'countries'
     ])
   },
   data() {
@@ -79,7 +84,8 @@ export default {
       isOpen: false,
       isClosed: true,
       duration: 1000,
-      timer: null
+      timer: null,
+      country: ''
     }
   },
   methods: {
@@ -112,10 +118,7 @@ export default {
     .covid-map {
       transform: translate3d(0, 92vh, 0);
     }
-
-    .icon {
-
-    }
+    .icon {}
   }
 }
 

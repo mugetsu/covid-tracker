@@ -49,6 +49,7 @@ export default {
   background-color: #343332;
   box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.5);
   transition: .5s ease;
+  overflow: hidden;
 
   &.is-active {
     display: flex;
@@ -72,6 +73,7 @@ export default {
   .drawer-item-content {
     height: 100%;
     color: #f2f2f2;
+    overflow: auto;
   }
 }
 </style>

@@ -5,13 +5,21 @@ export default {
     )
       .then(res => {
         if (res.status === 200) {
-          const { latest } = res.data
+          const {
+            confirmed,
+            latest
+          } = res.data
           commit('SET_DATA', res.data)
           commit('SET_LATEST', latest)
+          commit('SET_COUNTRIES', confirmed)
         }
       })
       .catch(err => {
         console.log('API error.', err)
       })
+  },
+  getCasesByCountry({ state, commit }, payload) {
+    console.log(payload)
+    // console.log(state.data)
   }
 }
