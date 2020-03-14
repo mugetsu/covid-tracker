@@ -9,7 +9,7 @@
         <input
           ref="countries"
           type="text"
-          v-model="country"
+          :value="country"
           placeholder="Country"
           @keydown.enter="enter"
           @keydown.down="down"
@@ -104,7 +104,7 @@ export default {
     },
     openSuggestion() {
       return (
-        this.country !== '' && this.matches.length != 0 && this.open === true
+        this.country !== '' && this.matches.length != 0 && this.open
       )
     },
     results() {
@@ -168,6 +168,7 @@ export default {
         this.open = true
         this.current = 0
       }
+      this.country = e.target.value
       this.tempValue = !e.target.value ? null : e.target.value
       if (this.tempValue === null) {
         this.provinces = []
