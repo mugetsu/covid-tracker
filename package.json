@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.9.5",
-    "@nuxtjs/gtm": "^2.2.2",
+    "@nuxtjs/google-gtag": "^1.0.4",
     "@nuxtjs/pwa": "^3.0.0-beta.20",
     "animated-number-vue": "^1.0.0",
     "babel-runtime": "^6.26.0",

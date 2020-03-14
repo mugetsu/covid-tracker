@@ -48,7 +48,7 @@ module.exports = {
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    '@nuxtjs/gtm'
+    '@nuxtjs/google-gtag'
   ],
 
   /*
@@ -72,13 +72,14 @@ module.exports = {
   },
 
   /*
-  ** GTM configuration
+  ** GTAG configuration
   */
-  gtm: {
-    dev: false,
+ 'google-gtag': {
+    debug: true,
     id: process.env.GA,
-    pageTracking: true,
-    scriptURL: 'https://www.googletagmanager.com/gtag/js'
+    config: {
+      send_page_view: true
+    }
   },
 
   /*

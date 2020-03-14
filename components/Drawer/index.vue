@@ -25,8 +25,7 @@ export default {
       this.items[this.activeItem].deactivate()
       this.items[newIndex].activate()
       this.activeItem = newIndex
-      this.$gtm.push({
-        eventCategory: 'drawer',
+      this.$gtag('event', 'drawer', {
         eventAction: 'change',
         eventLabel: 'drawer change',
         eventValue: this.items[this.activeItem].title
