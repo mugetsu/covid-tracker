@@ -93,13 +93,6 @@ export default {
         this.isClosed = !this.isClosed
       }, 800)
     }
-  },
-  mounted() {
-    this.$ga.page({
-      page: '/',
-      title: 'Home page',
-      location: window.location.href
-    })
   }
 }
 </script>

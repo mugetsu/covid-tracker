@@ -48,7 +48,7 @@ module.exports = {
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    '@nuxtjs/google-analytics'
+    '@nuxtjs/gtm'
   ],
 
   /*
@@ -72,10 +72,13 @@ module.exports = {
   },
 
   /*
-  ** GA configuration
+  ** GTM configuration
   */
-  googleAnalytics: {
-    id: process.env.GA
+  gtm: {
+    dev: false,
+    id: process.env.GA,
+    pageTracking: true,
+    scriptURL: 'https://www.googletagmanager.com/gtag/js'
   },
 
   /*
