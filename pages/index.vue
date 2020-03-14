@@ -91,6 +91,11 @@ export default {
       clearTimeout(this.timer)
       this.timer = setTimeout(_ => {
         this.isClosed = !this.isClosed
+        this.$gtag('event', 'click', {
+          event_category: 'icon',
+          event_label: 'icon click',
+          value: this.isOpen
+        })
       }, 800)
     }
   }

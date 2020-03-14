@@ -123,7 +123,7 @@ export default {
         self.$gtag('event', 'click', {
           event_category: 'clustered',
           event_label: 'clustered click',
-          value: title
+          value: clusterId
         })
       })
 
