@@ -93,12 +93,18 @@ export default {
         this.isClosed = !this.isClosed
       }, 800)
     }
+  },
+  mounted() {
+    this.$ga.page({
+      page: '/',
+      title: 'Home page',
+      location: window.location.href
+    })
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
 .covid {
   position: absolute;
   height: 100vh;

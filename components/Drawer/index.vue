@@ -25,6 +25,12 @@ export default {
       this.items[this.activeItem].deactivate()
       this.items[newIndex].activate()
       this.activeItem = newIndex
+      this.$ga.event({
+        eventCategory: 'drawer',
+        eventAction: 'change',
+        eventLabel: 'drawer change',
+        eventValue: this.items[this.activeItem].title
+      })
     }
   },
   mounted() {

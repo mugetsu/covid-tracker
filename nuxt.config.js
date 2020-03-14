@@ -18,7 +18,7 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: pkg.author.name,
+    title: 'COVID-19 Tracker',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -43,25 +43,19 @@ module.exports = {
  ],
 
   /*
-  ** Plugins to load before mounting the App
-  */
-  plugins: [
-    { src: '~plugins/ga.js', mode: 'client' }
-  ],
-
-  /*
   ** Nuxt.js modules
   */
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    '@nuxtjs/google-analytics'
   ],
 
   /*
   ** Axios configuration
   */
   axios: {
-    baseURL: process.env.API_URL || 'http://localhost:3000/'
+    baseURL: process.env.API_URL
   },
 
   /*
@@ -78,9 +72,11 @@ module.exports = {
   },
 
   /*
-  ** Router middleware
+  ** GA configuration
   */
-  router: {},
+  googleAnalytics: {
+    id: process.env.GA
+  },
 
   /*
   ** Build configuration

@@ -1,4 +1,5 @@
 export default () => ({
   data: {},
-  latest: {}
+  latest: {},
+  timeline: []
 })

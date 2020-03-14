@@ -4,7 +4,6 @@ export default {
       confirmed,
       deaths,
       recovered
-      // latest
     } = data
     const dataCollection = {
       type: 'FeatureCollection',
@@ -50,5 +49,37 @@ export default {
   },
   SET_LATEST: (state, latest) => {
     state.latest = latest
+  },
+  SET_TIMELINE: (state, timeline) => {
+    const {
+      confirmed,
+      deaths
+    } = timeline
+    const dataTimeline = []
+    confirmed.locations.forEach((location, index) => {
+      const dead_locations = deaths.locations[index]
+      const confirmed_history = Object.entries(location.history)
+      let dead_history_count = 0
+      for (const [i, value] of confirmed_history.entries()) {
+        const key = value[0]
+        const count = value[1]
+        if (
+          location.country_code === dead_locations.country_code
+          && dead_locations.history.hasOwnProperty(key)
+        ) {
+          dead_history_count = dead_locations.history[key]
+        }
+        dataTimeline.push({
+          date: key,
+          cases: []
+        })
+        // {
+        //   country_code: location.country_code,
+        //   confirmed: count,
+        //   deaths: dead_history_count
+        // }
+      }
+    })
+    state.timeline = dataTimeline
   }
 }

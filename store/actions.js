@@ -1,6 +1,8 @@
 export default {
   async nuxtServerInit({ commit }, ctx) {
-    await this.$axios.get('/all')
+    await this.$axios.get(
+      process.env.NODE_ENV !== 'production' ? 'covid.json' : '/all'
+    )
       .then(res => {
         if (res.status === 200) {
           const { latest } = res.data
