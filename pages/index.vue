@@ -114,9 +114,8 @@ export default {
 
   &.is-open {
     .covid-map {
-      transform: translate3d(0, 92vh, 0);
+      transform: translate3d(0, 92%, 0);
     }
-    .icon {}
   }
 }
 
