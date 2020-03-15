@@ -1,7 +1,7 @@
 export default {
   async nuxtServerInit({ commit }, ctx) {
     await this.$axios.get(
-      process.env.NODE_ENV !== 'production' ? 'covid.json' : '/all'
+      process.env.NODE_ENV !== 'production' ? 'data.json' : '/all'
     )
       .then(res => {
         if (res.status === 200) {
@@ -12,6 +12,7 @@ export default {
           commit('SET_DATA', res.data)
           commit('SET_LATEST', latest)
           commit('SET_COUNTRIES', confirmed)
+          commit('SET_LAST_UPDATED', confirmed.last_updated)
         }
       })
       .catch(err => {

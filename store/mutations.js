@@ -22,21 +22,27 @@ export default {
 			) {
 				dead_count = dead_locations.latest
 			}
-			dataCollection.features.push({
-				type: 'Feature',
-				properties: {
-					country: location.country,
-					country_code: location.country_code,
-					confirmed_count: location.latest,
-					recovered_count: recovered_count,
-					dead_count: dead_count,
-					province: location.province
-				},
-				geometry: {
-					type: 'Point',
-					coordinates: [ location.coordinates.long, location.coordinates.lat ]
-				}
-			})
+			if (
+				location.latest
+				|| recovered_count
+				|| dead_count
+			) {
+				dataCollection.features.push({
+					type: 'Feature',
+					properties: {
+						country: location.country,
+						country_code: location.country_code,
+						confirmed_count: location.latest,
+						recovered_count: recovered_count,
+						dead_count: dead_count,
+						province: location.province
+					},
+					geometry: {
+						type: 'Point',
+						coordinates: [ location.coordinates.long, location.coordinates.lat ]
+					}
+				})
+			}
 		})
 		state.data = dataCollection
 	},
@@ -54,5 +60,17 @@ export default {
   },
   SET_COUNTRY_CASE: (state, country_case) => {
 		state.country_case = country_case
+	},
+	SET_LAST_UPDATED: (state, last_updated) => {
+		const options = {
+			weekday: 'long',
+			year: 'numeric',
+			month: 'long',
+			day: 'numeric',
+			hour: '2-digit',
+			minute: '2-digit'
+		}
+		const d = new Date(last_updated)
+		state.last_updated = d.toLocaleDateString('en-US', options)
 	}
 }

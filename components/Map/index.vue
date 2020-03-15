@@ -56,9 +56,9 @@ export default {
             'circle-color': [
               'step',
               ['get', 'point_count'],
-              '#ffdb99',
+              '#ffedcc',
               2,
-              '#ffc04c',
+              '#ffc966',
               4,
               '#ffa500'
             ],
@@ -92,10 +92,10 @@ export default {
           source: 'covid',
           filter: ['!', ['has', 'point_count']],
           paint: {
-            'circle-color': '#ffa500',
+            'circle-color': '#ffe4b2',
             'circle-radius': 7,
             'circle-stroke-width': 1,
-            'circle-stroke-color': '#ffa500'
+            'circle-stroke-color': '#ffe4b2'
           }
         })
       }
@@ -144,7 +144,7 @@ export default {
           .setLngLat(coordinates)
           .setHTML(`
             <div class="popup">
-              <p class="popup_title">Case / ${title}</p>
+              <p class="popup_title">${title}</p>
               <div class="popup_item item_confirmed">
                 <span>Confirmed</span>
                 <span>${cc}</span>
@@ -190,8 +190,16 @@ export default {
 }
 
 /deep/ .popup {
+  margin: 0 16px 0 8px;
+  &_title {
+    margin-top: 4px;
+    margin-bottom: 8px;
+    font-size: 16px;
+  }
   &_item {
     span {
+      font-weight: 700;
+      font-size: 14px;
       &:first-child {
         font-weight: 300;
       }

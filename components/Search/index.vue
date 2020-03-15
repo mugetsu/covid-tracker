@@ -22,7 +22,9 @@
         :class="{
           'is-show': hasSelected && provinces && provinces.length
         }">
-        <select ref="provinces">
+        <select
+          ref="provinces"
+          @change="onChange">
           <option 
             label="Province"
             value=""
@@ -50,7 +52,7 @@
       </li>
     </ul>
     <div
-      v-if="hasSelected && country_case.length"
+      v-if="hasSelected && hasSearched && country_case.length"
       class="search-results">
       <p class="">Cases</p>
       <Results
@@ -136,6 +138,7 @@ export default {
       provinces: [],
       tempValue: null,
       hasSelected: false,
+      hasSearched: false,
       duration: 1000
     }
   },
@@ -145,13 +148,14 @@ export default {
       this.tempValue = this.country
       this.open = false
       this.hasSelected = true
-      this.$nextTick(_ => {
-        if (this.$refs.provinces) this.$refs.provinces.focus()
-      })
+      this.hasSearched = false
       this.$gtag('event', 'enter', {
         event_category: 'input',
         event_label: 'input enter',
         value: this.country
+      })
+      this.$nextTick(_ => {
+        if (this.$refs.provinces) this.$refs.provinces.focus()
       })
     },
     up() {
@@ -173,6 +177,7 @@ export default {
       if (this.tempValue === null) {
         this.provinces = []
         this.hasSelected = false
+        this.hasSearched = false
       }
     },
     suggestionClick(index) {
@@ -180,6 +185,7 @@ export default {
       this.tempValue = this.country
       this.open = false
       this.hasSelected = true
+      this.hasSearched = false
       this.$nextTick(_ => {
         if (this.$refs.provinces) this.$refs.provinces.focus()
       })
@@ -190,15 +196,22 @@ export default {
       })
     },
     onSearch() {
-      this.$store.dispatch('getCasesByCountry', {
-        country: this.country,
-        province: this.$refs.provinces.value
-      })
-      this.$gtag('event', 'click', {
-        event_category: 'search',
-        event_label: 'search click',
-        value: `${this.country}${this.$refs.provinces.value ? ', ' + this.$refs.provinces.value : ''}`
-      })
+      this.$store
+        .dispatch('getCasesByCountry', {
+          country: this.country,
+          province: this.$refs.provinces.value
+        })
+        .then(_ => {
+          this.hasSearched = true
+          this.$gtag('event', 'click', {
+            event_category: 'search',
+            event_label: 'search click',
+            value: `${this.country}${this.$refs.provinces.value ? ', ' + this.$refs.provinces.value : ''}`
+          })
+        })
+    },
+    onChange() {
+      this.hasSearched = false
     }
   }
 }

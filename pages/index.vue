@@ -7,7 +7,7 @@
     <div class="covid-map">
       <Map :data="data" />
       <p class="reference">
-        Data Provided by <a href="https://github.com/CSSEGISandData/COVID-19" target="_BLANK">JHU CSSE</a>
+        Data provided by <a href="https://github.com/CSSEGISandData/COVID-19" target="_BLANK">JHU CSSE</a>
       </p>
     </div>
     <div class="overview">
@@ -58,7 +58,8 @@ export default {
     ...mapGetters([
       'data',
       'latest',
-      'countries'
+      'countries',
+      'last_updated'
     ]),
     results() {
       return [
@@ -142,6 +143,7 @@ export default {
     padding: 8px;
     font-size: 10px;
     font-weight: 300;
+    text-align: right;
     text-transform: uppercase;
     color: #ffffff;
 
@@ -149,6 +151,10 @@ export default {
       font-weight: 400;
       text-decoration: none;
       color: #ffffff;
+    }
+
+    span {
+      display: block;
     }
   }
 }
