@@ -45,6 +45,6 @@ export default {
 .drawer {
   display: flex;
   flex-direction: column;
-  height: 92vh;
+  height: 92%;
 }
 </style>

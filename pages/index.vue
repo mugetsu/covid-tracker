@@ -24,7 +24,9 @@
             :selection.sync="country" />
         </DrawerItem>
         <DrawerItem title="TIMELINE">
-          <p>FEATURE TO BE ADDED SOON</p>
+          <div class="timeline">
+            <p>FEATURE TO BE ADDED SOON</p>
+          </div>
         </DrawerItem>
       </Drawer>
     </div>
@@ -118,6 +120,11 @@ export default {
   }
 }
 
+.timeline {
+  position: relative;
+  white-space: normal;
+}
+
 .covid-map {
   position: relative;
   z-index: 1;
@@ -153,7 +160,7 @@ export default {
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   font-size: 24px;
   color: #ffffff;
 }

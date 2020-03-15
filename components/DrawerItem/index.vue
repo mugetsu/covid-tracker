@@ -43,7 +43,7 @@ export default {
 <style lang="scss" scoped>
 .drawer-item {
   display: inline-block;
-  height: 12vh;
+  height: 12.8vh;
   width: 100vw;
   margin-bottom: -4px;
   background-color: #343332;
