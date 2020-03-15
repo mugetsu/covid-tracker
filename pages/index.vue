@@ -23,6 +23,18 @@
             :suggestions="countries"
             :selection.sync="country" />
         </DrawerItem>
+        <DrawerItem title="MAP LEGEND">
+          <div class="legend">
+            <p>
+              <span class="legend_item legend_cluster"></span> <span>Clustered affected country / state</span>
+            </p>
+            <span class="legend_detail">Clicking it will break the cluster into small and much specific country / state</span>
+            <p>
+              <span class="legend_item"></span> <span>Affected country / state</span>
+            </p>
+            <span class="legend_detail">Clicking it will show overview of known case in that country / state</span>
+          </div>
+        </DrawerItem>
         <DrawerItem title="TIMELINE">
           <div class="timeline">
             <p>FEATURE TO BE ADDED SOON</p>
@@ -117,6 +129,43 @@ export default {
     .covid-map {
       transform: translate3d(0, 92%, 0);
     }
+  }
+}
+
+.legend {
+  position: relative;
+  white-space: normal;
+
+  p {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  span {
+    display: inline-block;
+
+    &.legend_detail {
+      display: block;
+      margin-bottom: 24px;
+      font-size: 14px;
+      font-weight: 300;
+      color: #f2f2f2;
+      margin-left: 44px;
+    }
+  }
+
+  &_item {
+    flex: 0 0 auto;
+    border-radius: 100%;
+    margin-right: 12px;
+    width: 32px;
+    height: 32px;
+    background-color: #ffe4b2;
+  }
+
+  &_cluster {
+    background-color: #ffa500;
   }
 }
 
