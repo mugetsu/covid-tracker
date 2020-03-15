@@ -1,50 +1,63 @@
 export default {
 	SET_DATA: (state, data) => {
 		const { confirmed, deaths, recovered } = data
-		const dataCollection = {
-			type: 'FeatureCollection',
-			features: []
+		const timeSince = (date) => {
+			let seconds = Math.floor((new Date() - date) / 1000)
+			let interval = Math.floor(seconds / 31536000)
+			if (interval > 1) {
+				return interval + ' years'
+			}
+			interval = Math.floor(seconds / 2592000)
+			if (interval > 1) {
+				return interval + ' months'
+			}
+			interval = Math.floor(seconds / 86400)
+			if (interval > 1) {
+				return interval + ' days'
+			}
+			interval = Math.floor(seconds / 3600)
+			if (interval > 1) {
+				return interval + ' hours'
+			}
+			interval = Math.floor(seconds / 60)
+			if (interval > 1) {
+				return interval + ' minutes'
+			}
+			return Math.floor(seconds) + ' seconds'
 		}
-		confirmed.locations.forEach((location, index) => {
-			const recovered_locations = recovered.locations[index]
-			const dead_locations = deaths.locations[index]
-			let recovered_count = 0
-			let dead_count = 0
-			if (
-				location.coordinates.long === recovered_locations.coordinates.long &&
-				location.coordinates.lat === recovered_locations.coordinates.lat
-			) {
-				recovered_count = recovered_locations.latest
-			}
-			if (
-				location.coordinates.long === dead_locations.coordinates.long &&
-				location.coordinates.lat === dead_locations.coordinates.lat
-			) {
-				dead_count = dead_locations.latest
-			}
-			if (
-				location.latest
-				|| recovered_count
-				|| dead_count
-			) {
-				dataCollection.features.push({
-					type: 'Feature',
-					properties: {
-						country: location.country,
-						country_code: location.country_code,
-						confirmed_count: location.latest,
-						recovered_count: recovered_count,
-						dead_count: dead_count,
-						province: location.province
-					},
-					geometry: {
-						type: 'Point',
-						coordinates: [ location.coordinates.long, location.coordinates.lat ]
-					}
-				})
+		const lastUpdate = (history) => {
+			const last = new Date(
+				Math.max.apply(
+					null,
+					Object.keys(history).map((d) => {
+						return new Date(d)
+					})
+				)
+			)
+			return timeSince(last) + ' ago'
+		}
+		const cases = confirmed.locations.map((location, index) => {
+			return {
+				type: 'Feature',
+				properties: {
+					country: location.country,
+					country_code: location.country_code,
+					confirmed_count: location.latest,
+					recovered_count: recovered.locations[index].latest || 0,
+					dead_count: deaths.locations[index].latest || 0,
+					province: location.province,
+					last_update: lastUpdate(location.history)
+				},
+				geometry: {
+					type: 'Point',
+					coordinates: [ location.coordinates.long, location.coordinates.lat ]
+				}
 			}
 		})
-		state.data = dataCollection
+		state.data = {
+			type: 'FeatureCollection',
+			features: cases
+		}
 	},
 	SET_LATEST: (state, latest) => {
 		state.latest = latest
@@ -52,25 +65,13 @@ export default {
 	SET_COUNTRIES: (state, data) => {
 		const groupProvinceByCountry = (array, key) => {
 			return array.reduce((result, currentValue) => {
-				(result[currentValue[key]] = result[currentValue[key]] || []).push(currentValue.province)
+				;(result[currentValue[key]] = result[currentValue[key]] || []).push(currentValue.province)
 				return result
 			}, {})
-    }
-		state.countries = groupProvinceByCountry(data.locations, 'country')
-  },
-  SET_COUNTRY_CASE: (state, country_case) => {
-		state.country_case = country_case
-	},
-	SET_LAST_UPDATED: (state, last_updated) => {
-		const options = {
-			weekday: 'long',
-			year: 'numeric',
-			month: 'long',
-			day: 'numeric',
-			hour: '2-digit',
-			minute: '2-digit'
 		}
-		const d = new Date(last_updated)
-		state.last_updated = d.toLocaleDateString('en-US', options)
+		state.countries = groupProvinceByCountry(data.locations, 'country')
+	},
+	SET_COUNTRY_CASE: (state, country_case) => {
+		state.country_case = country_case
 	}
 }

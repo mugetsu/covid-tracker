@@ -32,7 +32,7 @@ export default {
         zoom: 1.6
       })
 
-      // map.addControl(new mapboxgl.NavigationControl())
+      map.addControl(new mapboxgl.NavigationControl())
 
       const addLayers = map => {
         map.addSource('covid', {
@@ -56,10 +56,8 @@ export default {
             'circle-color': [
               'step',
               ['get', 'point_count'],
-              '#ffedcc',
-              2,
-              '#ffc966',
-              4,
+              '#ffa500',
+              1,
               '#ffa500'
             ],
             'circle-radius': [
@@ -131,10 +129,11 @@ export default {
         let coordinates = e.features[0].geometry.coordinates.slice()
         const country = e.features[0].properties.country
         const province = e.features[0].properties.province
-        const title = country + (province ? ` - ${province}` : '')
+        const title = (province ? `${province}, ` : '') + country
         const cc = e.features[0].properties.confirmed_count
         const rc = e.features[0].properties.recovered_count
         const dc = e.features[0].properties.dead_count
+        const last_update = e.features[0].properties.last_update
 
         while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
           coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360
@@ -147,16 +146,17 @@ export default {
               <p class="popup_title">${title}</p>
               <div class="popup_item item_confirmed">
                 <span>Confirmed</span>
-                <span>${cc}</span>
+                <span class="value">${cc}</span>
               </div>
               <div class="popup_item item_recovered">
                 <span>Recovered</span>
-                <span>${rc}</span>
+                <span class="value">${rc}</span>
               </div>
               <div class="popup_item item_dead">
                 <span>Dead</span>
-                <span>${dc}</span>
+                <span class="value">${dc}</span>
               </div>
+              <div class="popup_last-update">last update ${last_update}</div>
             </div>
           `)
           .addTo(map)
@@ -205,19 +205,28 @@ export default {
       }
     }
     &.item_confirmed {
-      span:last-child {
+      .value {
         color: #ffa500;
       }
     }
     &.item_recovered {
-      span:last-child {
+      .value {
         color: #66a266;
       }
     }
     &.item_dead {
-      span:last-child {
+      .value {
         color: #b20000;
       }
+    }
+  }
+  &_last-update {
+    border-top: 1px solid #cccccc;
+    margin-top: 5px;
+    padding-top: 5px;
+
+    span {
+      font-weight: 700;
     }
   }
 }

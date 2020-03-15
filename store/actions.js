@@ -12,7 +12,6 @@ export default {
           commit('SET_DATA', res.data)
           commit('SET_LATEST', latest)
           commit('SET_COUNTRIES', confirmed)
-          commit('SET_LAST_UPDATED', confirmed.last_updated)
         }
       })
       .catch(err => {

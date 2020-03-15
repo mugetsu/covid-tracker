@@ -37,6 +37,15 @@
             :value="province" />
         </select>
       </div>
+      <div
+        v-if="hasSelected && hasSearched && country_case.length"
+        class="search-results">
+        <p>Cases <span>({{ country_case[0].properties.last_update }})</span></p>
+        <Results
+          :items="results"
+          :duration="duration"
+          :show-value="!!country_case.length" />
+      </div>
       <button
         :disabled="!hasSelected"
         @click="onSearch">Search</button>
@@ -51,15 +60,6 @@
         <span>{{ suggestion }}</span>
       </li>
     </ul>
-    <div
-      v-if="hasSelected && hasSearched && country_case.length"
-      class="search-results">
-      <p class="">Cases</p>
-      <Results
-        :items="results"
-        :duration="duration"
-        :show-value="!!country_case.length" />
-    </div>
   </div>
 </template>
 
@@ -319,12 +319,21 @@ export default {
     font-size: 24px;
 
     & > p{
+      display: table;
       margin-top: 24px;
       margin-bottom: 12px;
       font-weight: 700;
       letter-spacing: 1px;
-      color: #cccccc;
+      color: #ffffff;
       text-transform: uppercase;
+
+      span {
+        display: table-cell;
+        padding-left: 8px;
+        font-size: 16px;
+        color: #f2f2f2;
+        vertical-align: middle;
+      }
     }
   }
 }

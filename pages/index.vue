@@ -12,7 +12,7 @@
     </div>
     <div class="overview">
       <Drawer>
-        <DrawerItem title="COVID-19">
+        <DrawerItem title="CASES">
           <Results
             :items="results"
             :duration="duration"
