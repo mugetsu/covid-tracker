@@ -37,7 +37,10 @@ module.exports = {
   /*
   ** Customize the progress-bar color
   */
- loading: '~/components/Loader/index.vue',
+ loading: {
+    color: '#ffa500',
+    height: '2px'
+  },
 
   /*
   ** Global CSS
@@ -53,6 +56,13 @@ module.exports = {
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
     '@nuxtjs/google-gtag'
+  ],
+
+  /*
+  ** Plugins
+  */
+  plugins: [
+    { src: '~/plugins/vue-chartjs.js', mode: 'client' }
   ],
 
   /*
