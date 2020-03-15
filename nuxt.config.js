@@ -67,8 +67,8 @@ module.exports = {
   */
   pwa: {
     manifest: {
-      name: pkg.author.name,
-      short_name: pkg.author.name.split(' ')[0]
+      name: 'COVID-19 Tracker',
+      short_name: 'COVID-19'
     },
     icons: {
       sizes: [16, 32, 180, 192, 512]
