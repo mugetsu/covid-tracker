@@ -1,5 +1,5 @@
 # COVID-19 Tracker 
-tracks COVID-19 around the world
+[Web App](https://covid-worldwide.herokuapp.com/) that tracks COVID-19 around the world
 
 ## API
 The API was provided by [ExpDev07/coronavirus-tracker-api](https://github.com/ExpDev07/coronavirus-tracker-api).
