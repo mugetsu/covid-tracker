@@ -80,7 +80,7 @@ export default {
 						recovered_count: recovered_count,
 						recovered_history: sortDate(recovered_locations.history),
 						dead_count: dead_count,
-						dead_history: sortDate(recovered_locations.history),
+						dead_history: sortDate(dead_locations.history),
 						last_update: lastUpdate(location.history)
 					},
 					geometry: {
