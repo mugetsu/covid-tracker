@@ -3,8 +3,8 @@ import { Line } from 'vue-chartjs'
 
 Vue.component('LineChart', {
 	extends: Line,
-	props: [ 'chartdata', 'options' ],
+	props: [ 'chartData', 'options' ],
 	mounted() {
-		this.renderChart(this.chartdata, this.options)
+		this.renderChart(this.chartData, this.options)
 	}
 })

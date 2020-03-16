@@ -31,12 +31,13 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 9999;
   width: 100%;
   height: 100%;
   background: rgba(255, 255, 255, 0.8);
   text-align: center;
   padding-top: 200px;
-  font-size: 30px;
-  font-family: sans-serif;
+  font-size: 100px;
+  color: #000000;
 }
 </style>

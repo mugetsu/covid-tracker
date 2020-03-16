@@ -36,24 +36,45 @@ export default {
 			)
 			return timeSince(last) + ' ago'
 		}
-		const cases = confirmed.locations.map((location, index) => {
-			return {
-				type: 'Feature',
-				properties: {
-					country: location.country,
-					country_code: location.country_code,
-					confirmed_count: location.latest,
-					recovered_count: recovered.locations[index].latest || 0,
-					dead_count: deaths.locations[index].latest || 0,
-					province: location.province,
-					last_update: lastUpdate(location.history)
-				},
-				geometry: {
-					type: 'Point',
-					coordinates: [ location.coordinates.long, location.coordinates.lat ]
+		const cases = confirmed.locations
+			.reduce((result, currentValue) => {
+				if (currentValue.latest) {
+					result.push(currentValue)
 				}
-			}
-		})
+				return result
+			}, [])
+			.map((location, index) => {
+				const sortDate = dates => {
+					const sorted_date = {}
+					Object.keys(dates)
+						.sort((a, b) => {
+							return new Date(a) - new Date(b)
+						})
+						.forEach(key => {
+							sorted_date[key] = dates[key]
+						})
+					return sorted_date
+				}
+				return {
+					type: 'Feature',
+					properties: {
+						country: location.country,
+						country_code: location.country_code,
+						province: location.province,
+						confirmed_count: location.latest,
+						confirmed_history: sortDate(location.history),
+						recovered_count: recovered.locations[index].latest || 0,
+						recovered_history: sortDate(recovered.locations[index].history),
+						dead_count: deaths.locations[index].latest || 0,
+						dead_history: sortDate(deaths.locations[index].history),
+						last_update: lastUpdate(location.history)
+					},
+					geometry: {
+						type: 'Point',
+						coordinates: [ location.coordinates.long, location.coordinates.lat ]
+					}
+				}
+			})
 		state.data = {
 			type: 'FeatureCollection',
 			features: cases
@@ -72,6 +93,19 @@ export default {
 		state.countries = groupProvinceByCountry(data.locations, 'country')
 	},
 	SET_COUNTRY_CASE: (state, country_case) => {
-		state.country_case = country_case
+		// const merged_history = {}
+		// const history = [
+		// 	country_case[0].properties.confirmed_history,
+		// 	country_case[0].properties.recovered_history,
+		// 	country_case[0].properties.dead_history
+		// ]
+		// history.forEach(item => {
+		// 	Object.keys(item).forEach(key => {
+		// 		merged_history[key] = merged_history[key] || []
+		// 		merged_history[key].push(item[key] || 0)
+		// 	})
+		// })
+		// state.country_case = Object.assign(country_case[0].properties, { merged_history: merged_history })
+		state.country_case = Object.assign({}, country_case[0].properties)
 	}
 }

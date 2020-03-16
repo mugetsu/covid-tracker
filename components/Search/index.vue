@@ -38,13 +38,15 @@
         </select>
       </div>
       <div
-        v-if="hasSelected && hasSearched && country_case.length"
+        v-if="hasSelected && hasSearched && !isEmpty(country_case)"
         class="search-results">
-        <p>Cases <span>({{ country_case[0].properties.last_update }})</span></p>
+        <p>Cases <span>({{ country_case.last_update }})</span></p>
         <Results
           :items="results"
           :duration="duration"
-          :show-value="!!country_case.length" />
+          :show-value="!isEmpty(country_case)"
+          :show-chart="true"
+          :chart-data="country_case" />
       </div>
       <button
         :disabled="!hasSelected"
@@ -110,21 +112,21 @@ export default {
       )
     },
     results() {
-      const cases = this.country_case || []
+      const cases = this.country_case
       return [
         {
           label: 'Confirmed / ',
-          value: cases.length ? cases[0].properties.confirmed_count : 0,
+          value: cases.confirmed_count,
           color: '#ffa500'
         },
         {
           label: 'Recovered / ',
-          value: cases.length ? cases[0].properties.recovered_count : 0,
+          value: cases.recovered_count,
           color: '#66a266'
         },
         {
           label: 'Deaths / ',
-          value: cases.length ? cases[0].properties.dead_count : 0,
+          value: cases.dead_count,
           color: '#b20000'
         }
       ]
@@ -143,6 +145,9 @@ export default {
     }
   },
   methods: {
+    isEmpty(obj) {
+      return Object.keys(obj).length === 0 && obj.constructor === Object
+    },
     enter() {
       this.setSelection = this.matches[this.current]
       this.tempValue = this.country
@@ -283,6 +288,7 @@ export default {
   button {
     border-radius: 4px;
     margin-top: 16px;
+    margin-bottom: 16px;
     padding: 12px 16px 14px;
     font-size: 24px;
     width: 100%;
