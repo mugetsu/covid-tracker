@@ -1,6 +1,10 @@
 export default {
 	SET_DATA: (state, data) => {
 		const { confirmed, deaths, recovered } = data
+		const dataCollection = {
+      type: 'FeatureCollection',
+      features: []
+		}
 		const timeSince = (date) => {
 			let seconds = Math.floor((new Date() - date) / 1000)
 			let interval = Math.floor(seconds / 31536000)
@@ -36,26 +40,36 @@ export default {
 			)
 			return timeSince(last) + ' ago'
 		}
-		const cases = confirmed.locations
-			.reduce((result, currentValue) => {
-				if (currentValue.latest) {
-					result.push(currentValue)
-				}
-				return result
-			}, [])
-			.map((location, index) => {
-				const sortDate = dates => {
-					const sorted_date = {}
-					Object.keys(dates)
-						.sort((a, b) => {
-							return new Date(a) - new Date(b)
-						})
-						.forEach(key => {
-							sorted_date[key] = dates[key]
-						})
-					return sorted_date
-				}
-				return {
+		const sortDate = dates => {
+			const sorted_date = {}
+			Object.keys(dates)
+				.sort((a, b) => {
+					return new Date(a) - new Date(b)
+				})
+				.forEach(key => {
+					sorted_date[key] = dates[key]
+				})
+			return sorted_date
+		}
+		confirmed.locations.forEach((location, index) => {
+			const recovered_locations = recovered.locations[index]
+			const dead_locations = deaths.locations[index]
+			let recovered_count = 0
+			let dead_count = 0
+			if (
+				location.coordinates.long === recovered_locations.coordinates.long
+				&& location.coordinates.lat === recovered_locations.coordinates.lat
+			) {
+				recovered_count = recovered_locations.latest
+			}
+			if (
+				location.coordinates.long === dead_locations.coordinates.long
+				&& location.coordinates.lat === dead_locations.coordinates.lat
+			) {
+				dead_count = dead_locations.latest
+			}
+			if (location.latest || recovered_count || dead_count) {
+				dataCollection.features.push({
 					type: 'Feature',
 					properties: {
 						country: location.country,
@@ -63,22 +77,23 @@ export default {
 						province: location.province,
 						confirmed_count: location.latest,
 						confirmed_history: sortDate(location.history),
-						recovered_count: recovered.locations[index].latest || 0,
-						recovered_history: sortDate(recovered.locations[index].history),
-						dead_count: deaths.locations[index].latest || 0,
-						dead_history: sortDate(deaths.locations[index].history),
+						recovered_count: recovered_count,
+						recovered_history: sortDate(recovered_locations.history),
+						dead_count: dead_count,
+						dead_history: sortDate(recovered_locations.history),
 						last_update: lastUpdate(location.history)
 					},
 					geometry: {
 						type: 'Point',
-						coordinates: [ location.coordinates.long, location.coordinates.lat ]
+						coordinates: [
+							location.coordinates.long,
+							location.coordinates.lat
+						]
 					}
-				}
-			})
-		state.data = {
-			type: 'FeatureCollection',
-			features: cases
-		}
+				})
+			}
+		})	
+		state.data = dataCollection
 	},
 	SET_LATEST: (state, latest) => {
 		state.latest = latest
