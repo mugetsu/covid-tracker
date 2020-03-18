@@ -42,8 +42,9 @@ export default {
 
 <style lang="scss" scoped>
 .drawer-item {
-  display: inline-block;
-  height: 12.8vh;
+  display: flex;
+  flex-direction: column;
+  height: 12.8%;
   width: 100vw;
   margin-bottom: -4px;
   background-color: #343332;
@@ -52,8 +53,6 @@ export default {
   overflow: hidden;
 
   &.is-active {
-    display: flex;
-    flex-direction: column;
     height: 100%;
   }
   
