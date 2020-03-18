@@ -130,7 +130,7 @@ export default {
   },
   methods: {
     formatNumber(s) {
-      return s.toFixed(0).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
+      return parseFloat(s.toFixed(0)).toLocaleString('en')
     }
   }
 }
