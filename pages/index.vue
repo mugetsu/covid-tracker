@@ -5,6 +5,73 @@
       'is-open': isOpen
     }">
     <div class="covid-map">
+      <a
+        href="#"
+        class="show-legend"
+        @click.prevent="onLegend">
+        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+          width="24" height="24"
+          viewBox="0 0 172 172"
+          style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#000000"><path d="M107.27783,35.87633l-43,-14.37633l-42.77783,17.114v0.043v115.72733l43.22217,-17.286l43,14.37633l42.77783,-17.12117v-0.043v-115.72017zM64.5,121.905v-85.01817l0.22217,-0.09317l42.77783,14.26167v85.01817l-0.22217,0.09317z"></path></g></g></svg>
+      </a>
+      <div
+        v-show="showLegend"
+        class="legend-wrapper">
+        <div
+          class="legend-close"
+          @click="onLegend">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" id="close">
+            <path d="M13.7885 1.06059C13.9838 0.865323 13.9838 0.548741 13.7885 0.353478C13.5932 0.158216 13.2767 0.158216 13.0814 0.353478L7.07099 6.36388L1.06059 0.353478C0.865323 0.158216 0.54874 0.158216 0.353478 0.353478C0.158216 0.54874 0.158216 0.865323 0.353478 1.06059L6.36389 7.07099L0.353478 13.0814C0.158216 13.2767 0.158216 13.5932 0.353478 13.7885C0.54874 13.9838 0.865323 13.9838 1.06058 13.7885L7.07099 7.7781L13.0814 13.7885C13.2767 13.9838 13.5932 13.9838 13.7885 13.7885C13.9838 13.5932 13.9838 13.2767 13.7885 13.0814L7.7781 7.07099L13.7885 1.06059Z"></path>
+          </svg>
+        </div>
+        <ul class="legend">
+          <li>
+            <p>
+              <span class="legend_item legend_cluster"></span> <span>With cases</span>
+            </p>
+            <span class="legend_detail">Clicking it will break the cluster into small and much specific country / state</span>
+          </li>
+          <li>
+            <p>
+              <span class="legend_item"></span> <span>Affected country / state</span>
+            </p>
+            <span class="legend_detail">Clicking it will show overview of known case in that country / state</span>
+          </li>
+          <li>
+            <p>
+              <span class="legend_item legend_item--icon legend_item--confirmed">
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                  width="26" height="26"
+                  viewBox="0 0 172 172"
+                  style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M149.28546,31.29387l-11.86117,-8.0625c-3.28185,-2.22236 -7.77825,-1.36959 -9.97476,1.88642l-58.14303,85.74159l-26.71996,-26.71996c-2.79087,-2.79087 -7.33894,-2.79087 -10.12981,0l-10.15565,10.15565c-2.79087,2.79087 -2.79087,7.33894 0,10.15565l41.08774,41.08774c2.29988,2.29988 5.91767,4.05709 9.17368,4.05709c3.25601,0 6.53786,-2.04146 8.65685,-5.11658l69.97837,-103.23618c2.22235,-3.25601 1.36959,-7.72656 -1.91226,-9.94892z"></path></g></g></svg>
+              </span> 
+              <span>Confirmed</span>
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="legend_item legend_item--icon legend_item--recovered">
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                  width="24" height="24"
+                  viewBox="0 0 172 172"
+                  style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M86,103.30033l-33.7335,-33.7335l10.13367,-10.13367l23.59983,23.59983l54.58133,-54.58133c-6.34967,-4.37883 -14.03233,-6.95167 -22.33133,-6.95167c-20.7475,0 -32.25,14.97833 -32.25,14.97833c0,0 -11.5025,-14.97833 -32.25,-14.97833c-21.77233,0 -39.41667,17.64433 -39.41667,39.41667c0,29.89217 35.20267,58.85983 45.01383,68.01167c11.30183,10.535 26.65283,24.08 26.65283,24.08c0,0 15.351,-13.545 26.65283,-24.08c9.81117,-9.15183 45.01383,-38.1195 45.01383,-68.01167c0,-8.299 -2.57283,-15.98167 -6.95167,-22.33133z"></path></g></g></svg>
+              </span> 
+              <span>Recovered</span>
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="legend_item legend_item--icon legend_item--dead">
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                  width="24" height="24"
+                  viewBox="0 0 172 172"
+                  style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M86,14.33333c-35.6255,0 -64.5,27.27633 -64.5,60.91667c0,10.01183 2.63017,19.42167 7.16667,27.74933v26.00067h28.66667v28.66667h57.33333v-28.66667h28.66667v-26.00067c4.5365,-8.32767 7.16667,-17.7375 7.16667,-27.74933c0,-33.64033 -28.8745,-60.91667 -64.5,-60.91667zM64.5,114.66667c-7.91917,0 -14.33333,-6.41417 -14.33333,-14.33333c0,-7.91917 6.41417,-14.33333 14.33333,-14.33333c7.91917,0 14.33333,6.41417 14.33333,14.33333c0,7.91917 -6.41417,14.33333 -14.33333,14.33333zM91.73333,136.16667c-3.58333,0 -5.01667,-2.86667 -5.73333,-5.01667c-0.71667,2.15 -2.86667,5.01667 -5.73333,5.01667c-1.43333,0 -3.58333,-1.43333 -3.58333,-3.58333c0,-5.01667 5.73333,-14.33333 9.31667,-15.05c3.58333,0.71667 9.31667,10.03333 9.31667,15.05c0,2.15 -1.43333,3.58333 -3.58333,3.58333zM107.5,114.66667c-7.91917,0 -14.33333,-6.41417 -14.33333,-14.33333c0,-7.91917 6.41417,-14.33333 14.33333,-14.33333c7.91917,0 14.33333,6.41417 14.33333,14.33333c0,7.91917 -6.41417,14.33333 -14.33333,14.33333z"></path></g></g></svg>
+              </span> 
+              <span>Dead</span>
+            </p>
+          </li>
+        </ul>
+      </div>
       <Map :data="data" />
       <p class="reference">
         Data provided by <a href="https://github.com/CSSEGISandData/COVID-19" target="_BLANK">JHU CSSE</a>
@@ -22,18 +89,6 @@
           <Search
             :suggestions="countries"
             :selection.sync="country" />
-        </DrawerItem>
-        <DrawerItem title="MAP LEGEND">
-          <div class="legend">
-            <p>
-              <span class="legend_item legend_cluster"></span> <span>Clustered affected country / state</span>
-            </p>
-            <span class="legend_detail">Clicking it will break the cluster into small and much specific country / state</span>
-            <p>
-              <span class="legend_item"></span> <span>Affected country / state</span>
-            </p>
-            <span class="legend_detail">Clicking it will show overview of known case in that country / state</span>
-          </div>
         </DrawerItem>
         <DrawerItem title="TIMELINE">
           <div class="timeline">
@@ -76,17 +131,17 @@ export default {
     results() {
       return [
         {
-          label: 'Confirmed / ',
+          label: 'Confirmed',
           value: this.latest.confirmed,
           color: '#ffa500'
         },
         {
-          label: 'Recovered / ',
+          label: 'Recovered',
           value: this.latest.recovered,
           color: '#66a266'
         },
         {
-          label: 'Deaths / ',
+          label: 'Dead',
           value: this.latest.deaths,
           color: '#b20000'
         }
@@ -97,6 +152,7 @@ export default {
     return {
       isOpen: false,
       isClosed: true,
+      showLegend: false,
       duration: 1000,
       timer: null,
       country: ''
@@ -114,6 +170,9 @@ export default {
           value: this.isOpen
         })
       }, 800)
+    },
+    onLegend() {
+      this.showLegend = !this.showLegend
     }
   },
   mounted() {
@@ -138,40 +197,100 @@ export default {
   }
 }
 
-.legend {
-  position: relative;
-  white-space: normal;
+.show-legend {
+  position: absolute;
+  z-index: 1;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  background-color: #ffffff;
+  transform: translate3d(12px, 12px, 0);
+  transition: .8s ease;
+  animation: float-legend 4s ease-in-out infinite;
+}
 
-  p {
-    display: flex;
-    align-items: center;
-    margin-bottom: 8px;
+.legend-wrapper {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  padding: 20px;
+  width: 280px;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+
+  .legend-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 13.75px;
+    height: 13.75px;
+    text-align: center;
+    cursor: pointer;
   }
 
-  span {
-    display: inline-block;
+  .legend {
+    position: relative;
+    white-space: normal;
+    padding: 0;
+    list-style: none;
 
-    &.legend_detail {
-      display: block;
-      margin-bottom: 24px;
-      font-size: 14px;
-      font-weight: 300;
-      color: #f2f2f2;
-      margin-left: 44px;
+    p {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
     }
-  }
 
-  &_item {
-    flex: 0 0 auto;
-    border-radius: 100%;
-    margin-right: 12px;
-    width: 32px;
-    height: 32px;
-    background-color: #ffe4b2;
-  }
+    span {
+      display: inline-block;
 
-  &_cluster {
-    background-color: #ffa500;
+      &.legend_detail {
+        display: block;
+        margin-bottom: 24px;
+        font-size: 14px;
+        font-weight: 300;
+        color: #000000;
+        margin-left: 44px;
+      }
+    }
+
+    &_item {
+      flex: 0 0 auto;
+      border-radius: 100%;
+      margin-right: 12px;
+      width: 32px;
+      height: 32px;
+      background-color: #ffe4b2;
+
+      &--icon {
+        text-align: center;
+        line-height: 32px;
+
+        svg {
+          display: inline-block;
+          vertical-align: middle;
+        }
+      }
+
+      &--confirmed {
+        background-color: #ffa500;
+      }
+
+      &--recovered {
+        background-color: #66a266;
+      }
+
+      &--dead {
+        background-color: #b20000;
+      }
+    }
+
+    &_cluster {
+      background-color: #ffa500;
+    }
   }
 }
 
@@ -223,6 +342,19 @@ export default {
   height: 100%;
   font-size: 24px;
   color: #ffffff;
+
+  .drawer-item-content {
+    /deep/ & > .results {
+      .cases {
+        display: block;
+        margin-left: 0;
+        margin-top: 12px;
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+    }
+  }
 }
 
 .icon {
@@ -255,6 +387,21 @@ export default {
 	100% {
 		box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
 		transform: translate3d(-32px, calc(-10vh - 32px), 0);
+	}
+}
+
+@keyframes float-legend {
+	0% {
+		box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+		transform: translate3d(12px, 12px, 0);
+	}
+	50% {
+		box-shadow: 0 25px 15px 0px rgba(0, 0, 0, 0.2);
+		transform: translate3d(12px, 18px, 0);
+	}
+	100% {
+		box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+		transform: translate3d(12px, 12px, 0);
 	}
 }
 </style>

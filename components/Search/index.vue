@@ -40,7 +40,8 @@
       <div
         v-if="hasSelected && hasSearched && !isEmpty(country_case)"
         class="search-results">
-        <p>Cases <span>({{ country_case.last_update }})</span></p>
+        <p>Cases</p>
+        <span>last update {{ country_case.last_update }}</span>
         <Results
           :items="results"
           :duration="duration"
@@ -115,17 +116,17 @@ export default {
       const cases = this.country_case
       return [
         {
-          label: 'Confirmed / ',
+          label: 'Confirmed',
           value: cases.confirmed_count,
           color: '#ffa500'
         },
         {
-          label: 'Recovered / ',
+          label: 'Recovered',
           value: cases.recovered_count,
           color: '#66a266'
         },
         {
-          label: 'Deaths / ',
+          label: 'Dead',
           value: cases.dead_count,
           color: '#b20000'
         }
@@ -322,24 +323,30 @@ export default {
   }
 
   .search-results {
-    font-size: 24px;
+    text-align: right;
 
-    & > p{
-      display: table;
+    @media only screen and (min-width: 768px) {
+      margin: 0 auto;
+      max-width: 512px;
+      text-align: center;
+    }
+
+    & > p {
       margin-top: 24px;
-      margin-bottom: 12px;
+      margin-bottom: 6px;
       font-weight: 700;
+      font-size: 32px;
       letter-spacing: 1px;
       color: #ffffff;
       text-transform: uppercase;
+      width: 100%;
+    }
 
-      span {
-        display: table-cell;
-        padding-left: 8px;
-        font-size: 16px;
-        color: #f2f2f2;
-        vertical-align: middle;
-      }
+    & > span {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 16px;
+      color: #dddddd;
     }
   }
 }
