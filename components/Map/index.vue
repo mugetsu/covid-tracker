@@ -10,9 +10,6 @@ export default {
   props: {
     data: Object
   },
-  data() {
-    return {}
-  },
   methods: {
     createMap(token) {
       const self = this
@@ -133,7 +130,6 @@ export default {
         const cc = e.features[0].properties.confirmed_count
         const rc = e.features[0].properties.recovered_count
         const dc = e.features[0].properties.dead_count
-        const last_update = e.features[0].properties.last_update
 
         while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
           coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360
@@ -156,7 +152,6 @@ export default {
                 <span>Dead</span>
                 <span class="value">${dc}</span>
               </div>
-              <div class="popup_last-update">last update ${last_update}</div>
             </div>
           `)
           .addTo(map)
@@ -190,7 +185,20 @@ export default {
 
   .mapboxgl-ctrl-top-right {
     .mapboxgl-ctrl {
-      margin-top: 26px;
+      margin-top: 24px;
+      margin-right: 24px;
+    }
+  }
+
+  .mapboxgl-ctrl-bottom-left {
+    .mapboxgl-ctrl {
+      margin: 0 0 16px 24px;
+    }
+  }
+
+  .mapboxgl-ctrl-attrib {
+    &.mapboxgl-compact {
+      margin: 0 24px 14px 0;
     }
   }
 }
@@ -224,15 +232,6 @@ export default {
       .value {
         color: #b20000;
       }
-    }
-  }
-  &_last-update {
-    border-top: 1px solid #cccccc;
-    margin-top: 5px;
-    padding-top: 5px;
-
-    span {
-      font-weight: 700;
     }
   }
 }
