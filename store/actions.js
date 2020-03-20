@@ -3,7 +3,7 @@ export default {
     await Promise
       .all([
         this.$axios.get(process.env.NODE_ENV !== 'production' ? 'latest.json' : '/latest'),
-        this.$axios.get(process.env.NODE_ENV !== 'production' ? 'locations.json' : '/all')
+        this.$axios.get(process.env.NODE_ENV !== 'production' ? 'locations.json' : '/locations')
       ])
       .then(res => {
         commit('SET_LATEST', res[0].data.latest)
