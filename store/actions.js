@@ -14,19 +14,7 @@ export default {
         console.log('API error.', err)
       })
   },
-  // getCasesByCountry({ state, commit }, payload) {
-  //   const country_case = state.data.features.filter(feature => {
-  //     if (payload.country) {
-  //       if (payload.province) {
-  //         return feature.properties.country === payload.country && feature.properties.province === payload.province
-  //       } else {
-  //         return feature.properties.country === payload.country
-  //       }
-  //     }
-  //   })
-  //   commit('SET_COUNTRY_CASE', country_case)
-  // },
-  async getResultByCountry({ commit }, id) {
+  async getOverviewByCountry({ commit }, id) {
     await this.$axios
       .get(
         process.env.NODE_ENV !== 'production' ? 'location-14.json' : `/locations/${id}`
