@@ -136,6 +136,7 @@ export default {
   width: 624px;
   height: 100%;
   background-color: #ffffff;
+  overflow: auto;
 
   @media only screen and (min-width: 768px) {
     height: auto;
@@ -150,28 +151,36 @@ export default {
     display: block;
     cursor: pointer;
     z-index: 1;
-    transform: translateY(calc(-50% - 16px));
+    transform: translateY(calc(-50% - 4px));
     transition: all .3s;
     fill: rgba(0,0,0,.5);
     
     svg {
       cursor: pointer;
     }
+
+    @media only screen and (min-width: 768px) {
+      transform: translateY(calc(-50% - 16px));
+    }
   }
 
   .content {
+    margin-bottom: 24px;
     color: #000000;
   }
 
   .title {
-    position: relative;
-    border-bottom: 1px solid #cccccc;
-    margin: 32px 0 12px;
-    padding-bottom: 8px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 12px;
+    padding: 32px 0 8px;
     font-size: 32px;
+    background: white;
 
     @media only screen and (min-width: 768px) {
-      margin: 0 0 12px;
+      padding: 0 0 8px;
     }
   }
 
