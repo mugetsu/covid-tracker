@@ -1,10 +1,6 @@
 <template>
   <div>
-    <div 
-      class="search"
-      :class="{
-        'is-open': openSuggestion
-      }">
+    <div class="search" :class="{ 'is-open': openSuggestion }">
       <div class="search-container">
         <div class="countries-wrapper">
           <input
@@ -61,35 +57,29 @@
         </li>
       </ul>
     </div>
-    <div class="overview-wrapper" :class="{ 'is-open': hasSearched }">
-      <Overview :data="result" @close="hasSearched = !hasSearched" />
-    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import Overview from '~/components/Overview'
 
 export default {
   name: 'Search',
-  components: {
-    Overview
-  },
   computed: {
     ...mapGetters([
-      'countries',
-      'result'
+      'countries'
     ]),
     setSelection: {
       get() {
         return this.selection
       },
       set(newSelect) {
-        const selected = this.countries[newSelect]
-        this.country = newSelect
-        this.provinces = selected
-        if (!selected[0].province) this.locationId = selected[0].id
+        if (this.countries[newSelect]) {
+          const selected = this.countries[newSelect]
+          this.country = newSelect
+          this.provinces = selected
+          if (selected.length && !selected[0].province) this.locationId = selected[0].id
+        }
       } 
     },
     matches() {
@@ -114,8 +104,7 @@ export default {
       provinces: [],
       locationId: null,
       tempValue: null,
-      hasSelected: false,
-      hasSearched: false
+      hasSelected: false
     }
   },
   methods: {
@@ -123,19 +112,20 @@ export default {
       return Object.keys(obj).length === 0 && obj.constructor === Object
     },
     enter() {
-      this.setSelection = this.matches[this.current]
-      this.tempValue = this.country
-      this.open = false
-      this.hasSelected = true
-      this.hasSearched = false
-      this.$gtag('event', 'enter', {
-        event_category: 'input',
-        event_label: 'input enter',
-        value: this.country
-      })
-      this.$nextTick(_ => {
-        if (this.$refs.provinces) this.$refs.provinces.focus()
-      })
+      if (this.matches[this.current]) {
+        this.setSelection = this.matches[this.current]
+        this.tempValue = this.country
+        this.open = false
+        this.hasSelected = true
+        this.$gtag('event', 'enter', {
+          event_category: 'input',
+          event_label: 'input enter',
+          value: this.country
+        })
+        this.$nextTick(_ => {
+          if (this.$refs.provinces) this.$refs.provinces.focus()
+        })
+      }
     },
     up() {
       if (this.current > 0) this.current--
@@ -156,7 +146,6 @@ export default {
       if (this.tempValue === null) {
         this.provinces = []
         this.hasSelected = false
-        this.hasSearched = false
       }
     },
     suggestionClick(index) {
@@ -164,7 +153,6 @@ export default {
       this.tempValue = this.country
       this.open = false
       this.hasSelected = true
-      this.hasSearched = false
       if (this.$refs.provinces) this.$refs.provinces.focus()
       this.$gtag('event', 'click', {
         event_category: 'select',
@@ -176,7 +164,7 @@ export default {
       this.$store
         .dispatch('getOverviewByCountry', this.locationId)
         .then(_ => {
-          this.hasSearched = true
+          this.$emit('search')
           this.$gtag('event', 'click', {
             event_category: 'search',
             event_label: 'search click',
@@ -186,7 +174,6 @@ export default {
 
     },
     onChange(e) {
-      this.hasSearched = false
       this.locationId = e.target.value
       this.$refs.search.focus()
     }
@@ -200,10 +187,14 @@ export default {
   position: absolute;
   left: 50%;
   bottom: 56px;
-  z-index: 2;
+  z-index: 1;
   padding: 0;
   width: calc(100% - 48px);
   transform: translateX(-50%);
+
+  @media only screen and (min-width: 768px) {
+    width: 480px;
+  }
 
   &.is-open {
 
@@ -230,6 +221,7 @@ export default {
     box-shadow: 0px 6px 2px -1px rgba(0, 0, 0, 0.2);
     opacity: 1;
     transition: 0.5s ease;
+    cursor: pointer;
 
     &.is-disabled {
       opacity: 0.2;
@@ -285,21 +277,6 @@ export default {
         background-color: #dddddd;
       }
     }
-  }
-}
-
-.overview-wrapper {
-  position: fixed;
-  z-index: -1;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: stretch;
-  width: 100%;
-  height: 100%;
-
-  &.is-open {
-    z-index: 9;
   }
 }
 </style>

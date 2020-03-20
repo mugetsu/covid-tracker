@@ -54,7 +54,7 @@ module.exports = {
   ** Plugins
   */
   plugins: [
-    { src: '~/plugins/vue-chartjs.js', mode: 'client' }
+    { src: '~/plugins/vue-apexcharts.js', mode: 'client' }
   ],
 
   /*

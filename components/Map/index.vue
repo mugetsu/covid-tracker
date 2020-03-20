@@ -205,30 +205,40 @@ export default {
 
 /deep/ .popup {
   margin: 0 16px 0 8px;
+
   &_title {
     margin-top: 4px;
     margin-bottom: 8px;
     font-size: 16px;
   }
+
   &_item {
+
     span {
       font-weight: 700;
       font-size: 14px;
+
       &:first-child {
         font-weight: 300;
       }
     }
+
     &.item_confirmed {
+
       .value {
         color: #ffa500;
       }
     }
+
     &.item_recovered {
+
       .value {
         color: #66a266;
       }
     }
+
     &.item_dead {
+
       .value {
         color: #b20000;
       }

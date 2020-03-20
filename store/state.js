@@ -2,5 +2,19 @@ export default () => ({
   data: {},
   latest: {},
   countries: {},
-  result: {}
+  result: {
+    country: '',
+    province: '',
+    timelines: {
+      confirmed: {
+        timeline: {}
+      },
+      deaths: {
+        timeline: {}
+      },
+      recovered: {
+        timeline: {}
+      }
+    }
+  }
 })
