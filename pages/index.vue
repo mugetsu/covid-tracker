@@ -1,9 +1,9 @@
 <template>
   <div class="page" :class="{ 'is-open': isOpen }">
-    <Latest />
     <div class="map-wrapper">
       <Map :data="data" />
     </div>
+    <Latest :data="latest" size="large" />
     <Search />
   </div>
 </template>
@@ -22,7 +22,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'data'
+      'data',
+      'latest'
     ])
   },
   data() {
@@ -58,7 +59,7 @@ export default {
 .map-wrapper {
   position: relative;
   z-index: 1;
-  width: 100vw;
+  width: 100%;
   height: 100%;
   background-color: #191a1a;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px -1px, rgba(0, 0, 0, 0.14) 0px 4px 5px 0px, rgba(0, 0, 0, 0.12) 0px 1px 10px 0px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="latest">
+  <div class="latest" :class="[ size, { 'is-inverted': invert } ]">
     <ul>
       <li>
         <span class="icon icon--confirmed">
@@ -7,7 +7,7 @@
         </span>
         <span>
           <animated-number
-            :value="latest.confirmed"
+            :value="data.confirmed"
             :formatValue="formatNumber"
             :duration="duration"
           />
@@ -19,7 +19,7 @@
         </span>
         <span>
           <animated-number
-            :value="latest.deaths"
+            :value="data.deaths"
             :formatValue="formatNumber"
             :duration="duration"
           />
@@ -31,7 +31,7 @@
         </span>
         <span>
           <animated-number
-            :value="latest.recovered"
+            :value="data.recovered"
             :formatValue="formatNumber"
             :duration="duration"
           />
@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import AnimatedNumber from 'animated-number-vue'
 
 export default {
@@ -50,15 +49,30 @@ export default {
   components: {
     AnimatedNumber
   },
+  props: {
+    data: {
+      type: Object,
+      default() {
+        return {
+          confirmed: 0,
+          deaths: 0,
+          recovered: 0
+        }
+      }
+    },
+    size: {
+      type: String,
+      default: 'small'
+    },
+    invert: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       duration: 1600
     }
-  },
-  computed: {
-    ...mapGetters([
-      'latest'
-    ])
   },
   methods: {
     formatNumber(s) {
@@ -73,20 +87,73 @@ $color-confirmed: #ffa500;
 $color-deaths: #b20000;
 $color-recovered: #66a266;
 
-.icon {
-  display: inline-block;
-  border-radius: 100%;
-  width: 32px;
-  height: 32px;
-  text-align: center;
-  box-shadow: 0px 4px 2px -1px rgba(0, 0, 0, 0.2);
+.latest {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  font-size: 24px;
+  color: #ffffff;
+  width: 100%;
 
-  svg {
-    display: inline-block;
+  ul {
+    margin: 24px;
+    padding: 0;
+    text-align: left;
+
+    li {
+      display: flex;
+      align-items: center;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      span {
+        font-weight: 300;
+      }
+    }
+  }
+
+  .icon {
+    margin-right: 6px;
     width: 24px;
     height: 24px;
-    vertical-align: middle;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
   }
+
+  &.large {
+    font-size: 32px;
+
+    .icon {
+      margin-right: 12px;
+      width: 32px;
+      height: 32px;
+    }
+
+    ul {
+      
+      li {
+        margin-top: 16px;
+      }
+    }
+  }
+
+  &.is-inverted {
+    color: #000000;
+  }
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  text-align: center;
+  box-shadow: 0px 4px 2px -1px rgba(0, 0, 0, 0.2);
 
   &--confirmed {
     background-color: $color-confirmed;
@@ -98,59 +165,6 @@ $color-recovered: #66a266;
 
   &--recovered {
     background-color: $color-recovered;
-  }
-}
-
-.latest {
-  position: absolute;
-  top: 0;
-  z-index: 2;
-  padding: 24px 0;
-  font-size: 32px;
-  color: #ffffff;
-  width: 100%;
-
-  ul {
-    margin: 0 24px;
-    padding: 0;
-    text-align: left;
-
-    li {
-      display: block;
-      margin-top: 16px;
-      line-height: 28px;
-
-      &:first-child {
-        margin-top: 0;
-      }
-
-      span {
-        display: inline-block;
-        vertical-align: middle; 
-        font-weight: 300;
-      }
-    }
-  }
-
-  .reference {
-    display: inline-block;
-    margin: 0;
-    padding: 8px;
-    font-size: 10px;
-    font-weight: 300;
-    text-align: right;
-    text-transform: uppercase;
-    color: #ffffff;
-
-    a {
-      font-weight: 400;
-      text-decoration: none;
-      color: #ffffff;
-    }
-
-    span {
-      display: block;
-    }
   }
 }
 </style>
