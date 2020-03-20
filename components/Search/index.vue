@@ -21,6 +21,7 @@
           }">
           <select
             ref="provinces"
+            @focus="onFocus"
             @change="onChange">
             <option 
               label="Select State"
@@ -173,9 +174,24 @@ export default {
         })
 
     },
+    onFocus(e) {
+      if (e.target.value) {
+        this.locationId = e.target.value
+        this.$gtag('event', 'focus', {
+          event_category: 'province',
+          event_label: 'province focus',
+          value: this.locationId
+        })
+      }
+    },
     onChange(e) {
       this.locationId = e.target.value
       this.$refs.search.focus()
+      this.$gtag('event', 'change', {
+        event_category: 'province',
+        event_label: 'province change',
+        value: this.locationId
+      })
     }
   }
 }
