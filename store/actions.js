@@ -8,6 +8,7 @@ export default {
       .then(res => {
         commit('SET_LATEST', res[0].data.latest)
         commit('SET_DATA', res[1].data)
+        commit('SET_COUNTRIES', res[1].data)
       })
       .catch(err => {
         console.log('API error.', err)

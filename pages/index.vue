@@ -4,9 +4,7 @@
     <div class="map-wrapper">
       <Map :data="data" />
     </div>
-    <div class="search">
-      <input type="text" placeholder="Country" />
-    </div>
+    <Search />
   </div>
 </template>
 
@@ -14,11 +12,13 @@
 import { mapGetters } from 'vuex'
 import Latest from '~/components/Latest'
 import Map from '~/components/Map'
+import Search from '~/components/Search'
 
 export default {
   components: {
     Latest,
-    Map
+    Map,
+    Search
   },
   computed: {
     ...mapGetters([
@@ -64,24 +64,5 @@ export default {
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px -1px, rgba(0, 0, 0, 0.14) 0px 4px 5px 0px, rgba(0, 0, 0, 0.12) 0px 1px 10px 0px;
   transform: translate3d(0, 0%, 0);
   transition: transform 0.8s ease;
-}
-
-.search {
-  position: absolute;
-  bottom: 56px;
-  z-index: 2;
-  padding: 0;
-  width: 100%;
-
-  input {
-    border-radius: 4px;
-    border: 0;
-    margin: 0 auto;
-    padding: 8px 16px;
-    display: block;
-    width: calc(100% - 80px);
-    font-size: 24px;
-    outline: none;
-  }
 }
 </style>

@@ -79,6 +79,7 @@ $color-recovered: #66a266;
   width: 32px;
   height: 32px;
   text-align: center;
+  box-shadow: 0px 4px 2px -1px rgba(0, 0, 0, 0.2);
 
   svg {
     display: inline-block;

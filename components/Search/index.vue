@@ -2,7 +2,7 @@
   <div 
     class="search"
     :class="{
-      'open': openSuggestion
+      'is-open': openSuggestion
     }">
     <div class="search-container">
       <div class="countries-wrapper">
@@ -26,7 +26,7 @@
           ref="provinces"
           @change="onChange">
           <option 
-            label="Province"
+            label="Select State"
             value=""
             selected
             disabled />
@@ -37,27 +37,23 @@
             :value="province" />
         </select>
       </div>
-      <div
-        v-if="hasSelected && hasSearched && !isEmpty(country_case)"
-        class="search-results">
-        <p>Cases</p>
-        <span>last update {{ country_case.last_update }}</span>
-        <Results
-          :items="results"
-          :duration="duration"
-          :show-value="!isEmpty(country_case)"
-          :show-chart="true"
-          :chart-data="country_case" />
-      </div>
       <button
+        ref="search"
+        :class="{ 'is-disabled': !hasSelected }"
         :disabled="!hasSelected"
-        @click="onSearch">Search</button>
+        @click="onSearch">
+        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+          width="30" height="30"
+          viewBox="0 0 172 172"
+          style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M74.53333,17.2c-31.59642,0 -57.33333,25.73692 -57.33333,57.33333c0,31.59642 25.73692,57.33333 57.33333,57.33333c13.73998,0 26.35834,-4.87915 36.24766,-12.97839l34.23203,34.23203c1.43802,1.49778 3.5734,2.10113 5.5826,1.57735c2.0092,-0.52378 3.57826,-2.09284 4.10204,-4.10204c0.52378,-2.0092 -0.07957,-4.14458 -1.57735,-5.5826l-34.23203,-34.23203c8.09924,-9.88932 12.97839,-22.50768 12.97839,-36.24766c0,-31.59642 -25.73692,-57.33333 -57.33333,-57.33333zM74.53333,28.66667c25.39937,0 45.86667,20.4673 45.86667,45.86667c0,25.39937 -20.46729,45.86667 -45.86667,45.86667c-25.39937,0 -45.86667,-20.46729 -45.86667,-45.86667c0,-25.39937 20.4673,-45.86667 45.86667,-45.86667z"></path></g></g>
+        </svg>
+      </button>
     </div>
     <ul class="dropdown-menu">
       <li
         v-for="(suggestion, index) in matches"
         :key="index"
-        v-bind:class="{'active': isActive(index)}"
+        v-bind:class="{ 'is-active': isActive(index) }"
         @click="suggestionClick(index)"
       >
         <span>{{ suggestion }}</span>
@@ -77,19 +73,9 @@ export default {
     Results,
     AnimatedNumber
   },
-  props: {
-    suggestions: {
-      type: Object,
-      required: true
-    },
-    selection: {
-      type: String,
-      required: true
-    }
-  },
   computed: {
     ...mapGetters([
-      'country_case'
+      'countries'
     ]),
     setSelection: {
       get() {
@@ -97,11 +83,11 @@ export default {
       },
       set(newSelect) {
         this.country = newSelect
-        this.provinces = this.suggestions[newSelect].filter(_ => _)
+        this.provinces = this.countries[newSelect].filter(_ => _)
       } 
     },
     matches() {
-      const countries = Object.keys(this.suggestions)
+      const countries = Object.keys(this.countries)
       const lowerCased = this.country.toLowerCase()
       return countries.filter(str => {
         return str.toLowerCase().indexOf(lowerCased) >= 0
@@ -111,38 +97,18 @@ export default {
       return (
         this.country !== '' && this.matches.length != 0 && this.open
       )
-    },
-    results() {
-      const cases = this.country_case
-      return [
-        {
-          label: 'Confirmed',
-          value: cases.confirmed_count,
-          color: '#ffa500'
-        },
-        {
-          label: 'Recovered',
-          value: cases.recovered_count,
-          color: '#66a266'
-        },
-        {
-          label: 'Dead',
-          value: cases.dead_count,
-          color: '#b20000'
-        }
-      ]
     }
   },
   data() {
     return {
       open: false,
       current: 0,
+      selection: '',
       country: '',
       provinces: [],
       tempValue: null,
       hasSelected: false,
-      hasSearched: false,
-      duration: 1000
+      hasSearched: false
     }
   },
   methods: {
@@ -202,22 +168,23 @@ export default {
       })
     },
     onSearch() {
-      this.$store
-        .dispatch('getCasesByCountry', {
-          country: this.country,
-          province: this.$refs.provinces.value
-        })
-        .then(_ => {
-          this.hasSearched = true
-          this.$gtag('event', 'click', {
-            event_category: 'search',
-            event_label: 'search click',
-            value: `${this.country}${this.$refs.provinces.value ? ', ' + this.$refs.provinces.value : ''}`
-          })
-        })
+      // this.$store
+      //   .dispatch('getCasesByCountry', {
+      //     country: this.country,
+      //     province: this.$refs.provinces.value
+      //   })
+      //   .then(_ => {
+      //     this.hasSearched = true
+      //     this.$gtag('event', 'click', {
+      //       event_category: 'search',
+      //       event_label: 'search click',
+      //       value: `${this.country}${this.$refs.provinces.value ? ', ' + this.$refs.provinces.value : ''}`
+      //     })
+      //   })
     },
     onChange() {
       this.hasSearched = false
+      this.$refs.search.focus()
     }
   }
 }
@@ -226,127 +193,93 @@ export default {
 
 <style lang="scss" scoped>
 .search {
-  position: relative;
+  position: absolute;
+  left: 50%;
+  bottom: 56px;
+  z-index: 2;
+  padding: 0;
+  width: calc(100% - 48px);
+  transform: translateX(-50%);
 
-  &.open {
+  &.is-open {
+
+    .countries-wrapper {
+      border-radius: 0 0 4px 4px;
+    }
 
     .dropdown-menu {
       display: block;
-    }
-  }
-
-  .countries-wrapper {
-    display: block;
-
-    input {
-      margin: 0;
-      padding: 12px 16px 14px;
-      border: 1px solid #ffffff;
-      border-radius: 4px;
-      width: calc(100% - 32px);
-      font-size: 24px;
-      color: #ffffff;
-      background-color: transparent;
-
-      &::placeholder {
-        color: #cccccc;
-      }
-    }
-  }
-
-  .provinces-wrapper {
-    position: relative;
-    display: none;
-    margin-top: 16px;
-
-    &:after {
-      content: "";
-      width: 0;
-      height: 0;
-      border: 4px solid transparent;
-      border-color: #fff transparent transparent transparent;
-      position: absolute;
-      top: 50%;
-      right: 10px;
-    }
-
-    &.is-show {
-      display: block;
-    }
-
-    select {
-      padding: 12px 16px 14px;
-      border: 1px solid #ffffff;
-      border-radius: 4px;
-      font-size: 24px;
-      color: #ffffff;
-      width: 100%;
-      background-color: transparent;
-      appearance: none;
+      border-radius: 4px 4px 0 0;
     }
   }
 
   button {
+    position:relative;
+    top: 0px;
+    border: none;
+    color: #f2f2f2;
     border-radius: 4px;
-    margin-top: 16px;
-    margin-bottom: 16px;
-    padding: 12px 16px 14px;
-    font-size: 24px;
+    padding: 8px 16px;
     width: 100%;
+    font-size: 18px;
+    background-color: #3232ff;
+    box-shadow: 0px 6px 2px -1px rgba(0, 0, 0, 0.2);
+    opacity: 1;
+    transition: 0.5s ease;
+
+    &.is-disabled {
+      opacity: 0.2;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+  }
+
+  .countries-wrapper,
+  .provinces-wrapper {
+    border-radius: 4px;
+    margin: 0 auto 12px;
+    padding: 12px 16px;
     background-color: #ffffff;
-    cursor: pointer;
+    box-shadow: 0px 6px 2px -1px rgba(0, 0, 0, 0.2);
+
+    input,
+    select {
+      border: 0;
+      padding: 0;
+      display: block;
+      font-size: 24px;
+      width: 100%;
+      background-color: transparent;
+    }
+  }
+
+  .provinces-wrapper {
+    display: none;
+
+    &.is-show {
+      display: block;
+    }
   }
 
   .dropdown-menu {
     position: absolute;
-    top: 60px;
-    display: none;
-    border-radius: 4px;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px -1px, rgba(0, 0, 0, 0.14) 0px 4px 5px 0px, rgba(0, 0, 0, 0.12) 0px 1px 10px 0px;
+    top: -1px;
     margin: 0;
     padding: 0;
-    max-height: 24vh;
+    display: none;
+    max-height: 240px;
     width: 100%;
     overflow: auto;
+    transform: translateY(-100%);
     background-color: #ffffff;
 
     li {
-      display: block;
-      padding: 12px 8px;
-      font-size: 18px;
-      color: #343332;
+      padding: 8px;
+      font-size: 20px;
 
-      &.active {
+      &.is-active {
         background-color: #dddddd;
       }
-    }
-  }
-
-  .search-results {
-    text-align: right;
-
-    @media only screen and (min-width: 768px) {
-      margin: 0 auto;
-      max-width: 512px;
-      text-align: center;
-    }
-
-    & > p {
-      margin-top: 24px;
-      margin-bottom: 6px;
-      font-weight: 700;
-      font-size: 32px;
-      letter-spacing: 1px;
-      color: #ffffff;
-      text-transform: uppercase;
-      width: 100%;
-    }
-
-    & > span {
-      display: block;
-      margin-bottom: 12px;
-      font-size: 16px;
-      color: #dddddd;
     }
   }
 }
