@@ -132,6 +132,11 @@ $color-recovered: #66a266;
       margin-right: 12px;
       width: 32px;
       height: 32px;
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
     }
 
     ul {
