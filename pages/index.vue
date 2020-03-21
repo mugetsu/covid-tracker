@@ -62,10 +62,6 @@ export default {
   overflow: hidden;
 
   &.is-open {
-    
-    .map-wrapper {
-      transform: translate3d(0, 92%, 0);
-    }
 
     /deep/ .overview-wrapper {
       z-index: 10;
@@ -93,7 +89,7 @@ export default {
   height: 100%;
   background-color: #191a1a;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px -1px, rgba(0, 0, 0, 0.14) 0px 4px 5px 0px, rgba(0, 0, 0, 0.12) 0px 1px 10px 0px;
-  transform: translate3d(0, 0%, 0);
+  transform: scale(1);
   transition: transform 0.8s ease;
 }
 
@@ -113,9 +109,9 @@ export default {
     justify-content: center;
     align-items: center;
     width: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.6);
     opacity: 0;
-    transition: 0.5s ease;
+    transition: opacity 0.5s ease;
 
     .overview {
       animation: blowOutOverview .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
@@ -130,31 +126,31 @@ export default {
 
 @keyframes blowUpOverview {
   0% {
-    transform:scale(0);
+    transform: scale(0);
   }
   100% {
-    transform:scale(1);
+    transform: scale(1);
   }
 }
 
 @keyframes blowUpMap {
   0% {
-    transform:scale(1);
+    transform: scale(1);
   }
   99.9% {
-    transform:scale(2);
+    transform: scale(2);
   }
   100% {
-    transform:scale(0);
+    transform: scale(0);
   }
 }
 
 @keyframes blowOutOverview {
   0% {
-    transform:scale(1);
+    transform: scale(1);
   }
   100% {
-    transform:scale(0);
+    transform: scale(0);
   }
 }
 

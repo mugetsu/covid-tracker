@@ -101,9 +101,6 @@ export default {
       }
     }
   },
-  data() {
-    return {}
-  },
   methods: {
     onClose() {
       this.$emit('close')
