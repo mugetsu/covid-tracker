@@ -217,8 +217,8 @@ export default {
 
     .timestamp {
       padding-right: 16px;
-      font-weight: 700;
-      color: #585858;
+      font-weight: 300;
+      color: #666666;
       min-width: 100px;
     }
 
