@@ -373,6 +373,7 @@ export default {
     input,
     select {
       border: 0;
+      margin: 0;
       padding: 0;
       display: block;
       font-size: 24px;

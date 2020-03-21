@@ -20,8 +20,19 @@
         <p>Daily</p>
         <p class="sub">Click or Drag chart to view daily cases</p>
         <client-only>
-          <apexchart height="350" type="line" :options="chartOptions" :series="series"></apexchart>
+          <apexchart height="320" type="line" :options="chartOptions" :series="series"></apexchart>
         </client-only>
+      </div>
+      <div class="section timeline">
+        <p>Timeline</p>
+        <ul>
+          <li
+            v-for="(item, index) in timeline"
+            :key="index">
+            <span class="timestamp">{{ item.timestamp.month }} {{ item.timestamp.date }}, {{ item.timestamp.year }}</span>
+            <span class="summary" v-html="item.summary" />
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -102,6 +113,35 @@ export default {
           data: timelineRecovered
         }
       ]
+    },
+    timeline() {
+      const isPlural = (name, total, s) => {
+        return `<span class="${name}">${total}</span> ${s}${(total > 1) ? 's' : ''}`
+      }
+      const perDayConfirmed = this.getPerDay(Object.entries(this.result.timelines.confirmed.timeline))
+      const perDayDeaths = this.getPerDay(Object.entries(this.result.timelines.deaths.timeline))
+      const perDayRecovered = this.getPerDay(Object.entries(this.result.timelines.recovered.timeline))
+      const perDayCases = Object.entries(perDayConfirmed).map((o, index) => {
+        let summary = ''
+        if (o[1] || perDayDeaths[o[0]] || perDayRecovered[o[0]]) {
+          if (o[1]) {
+            summary += `${isPlural('confirmed', o[1], 'confirmed case')}`
+          }
+          if (perDayDeaths[o[0]]) {
+            summary += o[1] ? ' and ' : ''
+            summary += `${isPlural('deaths', perDayDeaths[o[0]], 'death')}`
+          }
+          if (perDayRecovered[o[0]]) {
+            summary += !o[1] || !perDayRecovered[o[0]] ? '' : ' and '
+            summary += `<span class="recovered">${perDayRecovered[o[0]]}</span> recovered`
+          }
+        }
+        return {
+          timestamp: this.formatDate(o[0]),
+          summary: summary + '.'
+        }
+      })
+      return perDayCases.filter(o => o.summary !== '.')
     }
   },
   data() {
@@ -124,6 +164,15 @@ export default {
         date: da,
         year: ye
       }
+    },
+    getPerDay(data) {
+      let temp = 0
+      const trueTimeline = {}
+      data.forEach(a => {
+        trueTimeline[a[0]] = a[1] > temp ? a[1] - temp : 0
+        temp = a[1]
+      })
+      return trueTimeline
     }
   }
 }
@@ -132,14 +181,14 @@ export default {
 <style lang="scss" scoped>
 .overview {
   border-radius: 4px;
-  padding: 24px;
+  padding: 0 24px 24px;
   width: 624px;
   height: 100%;
   background-color: #ffffff;
   overflow: auto;
 
   @media only screen and (min-width: 768px) {
-    height: auto;
+    height: 602px;
   }
 
   .close {
@@ -158,10 +207,6 @@ export default {
     svg {
       cursor: pointer;
     }
-
-    @media only screen and (min-width: 768px) {
-      transform: translateY(calc(-50% - 16px));
-    }
   }
 
   .content {
@@ -178,10 +223,6 @@ export default {
     padding: 32px 0 8px;
     font-size: 32px;
     background: white;
-
-    @media only screen and (min-width: 768px) {
-      padding: 0 0 8px;
-    }
   }
 
   .section {
@@ -230,6 +271,49 @@ export default {
         border-radius: 4px;
         margin-top: 12px;
       }
+    }
+  }
+
+  /deep/ .timeline {
+
+    ul {
+      margin: 8px 0 0;
+      padding: 0;
+    }
+
+    li {
+      display: flex;
+      padding: 8px;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 18px;
+
+      &:nth-child(even) {
+        background-color: #f1f1f1;
+      }
+    }
+
+    .timestamp {
+      padding-right: 16px;
+      font-weight: 700;
+      color: #585858;
+      text-transform: uppercase;
+      min-width: 100px;
+    }
+
+    .confirmed {
+      font-weight: 700;
+      color: #ffa500;
+    }
+
+    .deaths {
+      font-weight: 700;
+      color: #b20000;
+    }
+
+    .recovered {
+      font-weight: 700;
+      color: #66a266;
     }
   }
 }
