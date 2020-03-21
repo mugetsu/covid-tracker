@@ -17,14 +17,14 @@
         <Latest :data="latest" :invert="true" />
       </div>
       <div class="section chart">
-        <p>Daily</p>
+        <p>Timeline</p>
         <p class="sub">Click or Drag chart to view daily cases</p>
         <client-only>
           <apexchart height="320" type="line" :options="chartOptions" :series="series"></apexchart>
         </client-only>
       </div>
       <div class="section timeline">
-        <p>Timeline</p>
+        <p>Daily</p>
         <ul>
           <li
             v-for="(item, index) in timeline"
