@@ -3,7 +3,7 @@
     <div class="search" :class="{
       'is-open': openSuggestion,
       'has-selected': hasSelected,
-      'has-province': hasSelected && provinces.length && provinces[0].province
+      'has-province': isProvinceFocus
       }">
       <div class="search-container">
         <div class="countries-wrapper" :class="{ 'is-focused': focusedInput }">
@@ -23,8 +23,9 @@
         <div class="provinces-wrapper" :class="{ 'is-focused': focusedSelect }">
           <select
             ref="provinces"
-            :tabindex="focusedSelect ? '0' : '-1'"
-            @focus="focusedSelect = true"
+            v-model="locationId"
+            :tabindex="locationId ? '-1' : '0'"
+            @focus="onSelectFocus"
             @blur="focusedSelect = false"
             @change="onChange">
             <option 
@@ -42,10 +43,10 @@
         <button
           ref="search"
           :class="{
-            'is-disabled': !hasSelected,
+            'is-disabled': !hasSelected || !locationId,
             'is-focused': focusedButton
           }"
-          :disabled="!hasSelected"
+          :disabled="!hasSelected || !locationId"
           @focus="focusedButton = true"
           @blur="focusedButton = false"
           @click="onSearch">
@@ -61,8 +62,7 @@
           v-for="(suggestion, index) in matches"
           :key="index"
           v-bind:class="{ 'is-active': isActive(index) }"
-          @click="suggestionClick(index)"
-        >
+          @click="suggestionClick(index)">
           <span>{{ suggestion }}</span>
         </li>
       </ul>
@@ -105,7 +105,7 @@ export default {
       )
     },
     isProvinceFocus() {
-      return this.$refs.provinces && this.hasSelected && this.provinces.length && this.provinces[0].province
+      return this.hasSelected && this.provinces.length && this.provinces[0].province
     }
   },
   data() {
@@ -133,12 +133,17 @@ export default {
         this.tempValue = this.country
         this.open = false
         this.hasSelected = true
+        this.$nextTick(_ => {
+          if (this.isProvinceFocus) {
+            this.$refs.provinces.focus()
+            this.locationId = ""
+""}
+        })
         this.$gtag('event', 'enter', {
           event_category: 'input',
           event_label: 'input enter',
           value: this.country
         })
-        if (this.isProvinceFocus) this.$refs.provinces.focus()
       }
     },
     up() {
@@ -173,7 +178,10 @@ export default {
       this.tempValue = this.country
       this.open = false
       this.hasSelected = true
-      if (this.isProvinceFocus) this.$refs.provinces.focus()
+      if (this.isProvinceFocus) {
+        this.locationId = ""
+        this.$refs.provinces.focus()
+      }
       this.$gtag('event', 'click', {
         event_category: 'select',
         event_label: 'select click',
@@ -181,6 +189,7 @@ export default {
       })
     },
     onSearch() {
+      if (this.locationId) {
       this.$store
         .dispatch('getOverviewByCountry', this.locationId)
         .then(_ => {
@@ -191,8 +200,10 @@ export default {
             value: this.locationId
           })
         })
+      }
     },
     onSelectFocus(e) {
+      this.focusedSelect = true
       if (e.target.value) {
         this.locationId = e.target.value
         this.$gtag('event', 'focus', {
@@ -244,17 +255,13 @@ export default {
       &.has-province {
 
         .dropdown-menu {
-          transform: translateY(calc(-100% - 104px));
+          transform: translateY(calc(-100% - 100px));
         }  
       }
 
       .dropdown-menu {
-        transform: translateY(calc(-100% - 54px));
+        transform: translateY(calc(-100% - 48px));
       }
-    }
-
-    .countries-wrapper {
-      border-radius: 0 0 4px 4px;
     }
 
     .dropdown-menu {
@@ -263,30 +270,31 @@ export default {
   }
 
   &.has-selected {
-
-    button {
-      border-radius: 0 0 4px 4px;
-    }
     
     .countries-wrapper {
-      border-radius: 4px 4px  0 0;
+      border-radius: 4px 4px 0 0;
       transform: translateY(calc(100% + 2px));
     }
 
     .provinces-wrapper {
-      border-radius: 4px 4px  0 0;
       box-shadow: none;
-      transform: translateY(3px);
+      transform: translateY(2px);
+    }
+
+    button {
+      border-radius: 0 0 4px 4px;
     }
   }
 
   &.has-province {
 
     .countries-wrapper {
+      border-radius: 4px 4px 0 0;
       transform: translateY(2px);
     }
 
     .provinces-wrapper {
+      border-radius: 4px 4px 0 0;
       box-shadow: 0px 6px 2px -1px rgba(0, 0, 0, 0.2);
       transform: translateY(0);
     }
@@ -317,6 +325,7 @@ export default {
       transition: 0.6s cubic-bezier(0.83, 0, 0.17, 1);
     }
 
+    &:hover,
     &.is-focused {
       background-color: #1919ff;
 
@@ -329,6 +338,15 @@ export default {
       opacity: 0.2;
       box-shadow: none;
       cursor: not-allowed;
+
+      &:hover,
+      &.is-focused {
+        background-color: #3232ff;
+
+        svg {
+          transform: scale(1);
+        }
+      }
     }
   }
 
@@ -362,15 +380,11 @@ export default {
 
   .countries-wrapper {
     box-shadow: 0px 6px 2px -1px rgba(0, 0, 0, 0.2);
-    transform: translateY(calc(200% + 2px));
-
-    @media only screen and (min-width: 768px) {
-      transform: translateY(calc(200% + 3px));
-    }
+    transform: translateY(calc(200%));
   }
 
   .provinces-wrapper {
-    transform: translateY(calc(100% - 1px));
+    transform: translateY(calc(100%));
     z-index: 8;
   }
 
