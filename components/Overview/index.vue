@@ -1,7 +1,7 @@
 <template>
   <div class="overview">
     <div class="title">
-      {{ title }}
+      {{ result.title }}
       <a class="close" href="#" @click.prevent="onClose">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
           <g opacity="0.3">
@@ -14,20 +14,20 @@
     <div class="content">
       <div class="section cases">
         <p>Known Cases</p>
-        <Latest :data="latest" :invert="true" />
+        <Latest :data="result.latest" :invert="true" />
       </div>
       <div class="section chart">
         <p>Timeline</p>
         <p class="sub">Click or Drag chart to view daily cases</p>
         <client-only>
-          <apexchart height="320" type="line" :options="chartOptions" :series="series"></apexchart>
+          <apexchart height="320" type="line" :options="chartOptions" :series="result.series"></apexchart>
         </client-only>
       </div>
       <div class="section timeline">
         <p>Daily</p>
         <ul>
           <li
-            v-for="(item, index) in timeline"
+            v-for="(item, index) in result.timeline"
             :key="index">
             <span class="timestamp">{{ item.timestamp.month }} {{ item.timestamp.date }}, {{ item.timestamp.year }}</span>
             <span class="summary" v-html="item.summary" />
@@ -51,13 +51,6 @@ export default {
     ...mapGetters([
       'result'
     ]),
-    title() {
-      const o = this.result
-      return o.province ? `${o.province}, ${o.country}` : o.country
-    },
-    latest() {
-      return this.result.latest
-    },
     chartOptions() {
       return {
         chart: {
@@ -72,14 +65,14 @@ export default {
         dataLabels: {
           enabled: false
         },
-        colors: ["#ffa500", "#b20000", "#66a266"],
+        colors: ['#ffa500', '#b20000', '#66a266'],
         stroke: {
           width: [4, 4, 4]
         },
         xaxis: {
-          type: "datetime",
+          type: 'datetime',
           labels: {
-            format: "dd MMM"
+            format: 'dd MMM'
           }
         },
         yaxis: {
@@ -91,60 +84,9 @@ export default {
         },
         legend: {
           show: false,
-          horizontalAlign: "left"
+          horizontalAlign: 'left'
         }
       }
-    },
-    series() {
-      const timelineConfirmed = Object.entries(this.result.timelines.confirmed.timeline).map(o => o)
-      const timelineDeaths = Object.entries(this.result.timelines.deaths.timeline).map(o => o)
-      const timelineRecovered = Object.entries(this.result.timelines.recovered.timeline).map(o => o)
-      return [
-        {
-          name: "Confirmed",
-          data: timelineConfirmed
-        },
-        {
-          name: "Deaths",
-          data: timelineDeaths
-        },
-        {
-          name: "Recovered",
-          data: timelineRecovered
-        }
-      ]
-    },
-    timeline() {
-      const isPlural = (name, total, s) => {
-        return `<span class="${name}">${total}</span> ${s}${(total > 1) ? 's' : ''}`
-      }
-      const isContinue = (a, b) => {
-        return a && b ? ', ' : a && !b ? ' and ' : ''
-      }
-      const perDayConfirmed = this.getPerDay(Object.entries(this.result.timelines.confirmed.timeline))
-      const perDayDeaths = this.getPerDay(Object.entries(this.result.timelines.deaths.timeline))
-      const perDayRecovered = this.getPerDay(Object.entries(this.result.timelines.recovered.timeline))
-      const perDayCases = Object.entries(perDayConfirmed).map((o, index) => {
-        let summary = ''
-        if (o[1] || perDayDeaths[o[0]] || perDayRecovered[o[0]]) {
-          if (o[1]) {
-            summary += `${isPlural('confirmed', o[1], 'confirmed case')}`
-          }
-          if (perDayDeaths[o[0]]) {
-            summary += isContinue(o[1], perDayRecovered[o[0]])
-            summary += `${isPlural('deaths', perDayDeaths[o[0]], 'death')}`
-          }
-          if (perDayRecovered[o[0]]) {
-            summary += isContinue(o[1], perDayDeaths[o[0]])
-            summary += `<span class="recovered">${perDayRecovered[o[0]]}</span> recovered`
-          }
-        }
-        return {
-          timestamp: this.formatDate(o[0]),
-          summary: summary + '.'
-        }
-      })
-      return perDayCases.filter(o => o.summary !== '.')
     }
   },
   data() {
@@ -153,29 +95,6 @@ export default {
   methods: {
     onClose() {
       this.$emit('close')
-    },
-    formatDate(val) {
-      const d = new Date(val)
-      const dtf = new Intl.DateTimeFormat('en', {
-        year: 'numeric',
-        month: 'short',
-        day: '2-digit'
-      })
-      const [{ value: mo }, , { value: da }, , { value: ye }] = dtf.formatToParts(d)
-      return {
-        month: mo,
-        date: da,
-        year: ye
-      }
-    },
-    getPerDay(data) {
-      let temp = 0
-      const trueTimeline = {}
-      data.forEach(a => {
-        trueTimeline[a[0]] = a[1] > temp ? a[1] - temp : 0
-        temp = a[1]
-      })
-      return trueTimeline
     }
   }
 }
@@ -300,7 +219,6 @@ export default {
       padding-right: 16px;
       font-weight: 700;
       color: #585858;
-      text-transform: uppercase;
       min-width: 100px;
     }
 

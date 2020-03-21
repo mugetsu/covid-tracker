@@ -84,7 +84,82 @@ export default {
 		state.latest = latest
 	},
 	SET_RESULT: (state, result) => {
-		state.result = result
+		const title = result.province ? `${result.province}, ${result.country}` : result.country
+		const series = _ => {
+			const timelineConfirmed = Object.entries(result.timelines.confirmed.timeline).map(o => o)
+      const timelineDeaths = Object.entries(result.timelines.deaths.timeline).map(o => o)
+      const timelineRecovered = Object.entries(result.timelines.recovered.timeline).map(o => o)
+      return [
+        {
+          name: 'Confirmed',
+          data: timelineConfirmed
+        },
+        {
+          name: 'Deaths',
+          data: timelineDeaths
+        },
+        {
+          name: 'Recovered',
+          data: timelineRecovered
+        }
+      ]
+		}
+		const timeline = () => {
+      const isPlural = (name, total, s) => `<span class="${name}">${total}</span> ${s}${(total > 1) ? 's' : ''}`
+			const getPerDay = data => {
+				let temp = 0
+				const trueTimeline = {}
+				data.forEach(a => {
+					trueTimeline[a[0]] = a[1] > temp ? a[1] - temp : 0
+					temp = a[1]
+				})
+				return trueTimeline
+			}
+			const formatDate = val => {
+				const d = new Date(val)
+				const dtf = new Intl.DateTimeFormat('en', {
+					year: 'numeric',
+					month: 'short',
+					day: '2-digit'
+				})
+				const [{ value: mo }, , { value: da }, , { value: ye }] = dtf.formatToParts(d)
+				return {
+					month: mo,
+					date: da,
+					year: ye
+				}
+			}
+      const perDayConfirmed = getPerDay(Object.entries(result.timelines.confirmed.timeline))
+      const perDayDeaths = getPerDay(Object.entries(result.timelines.deaths.timeline))
+      const perDayRecovered = getPerDay(Object.entries(result.timelines.recovered.timeline))
+      const perDayCases = Object.entries(perDayConfirmed).map(o => {
+        let summary = ''
+        if (o[1] || perDayDeaths[o[0]] || perDayRecovered[o[0]]) {
+          if (o[1]) {
+            summary += `${isPlural('confirmed', o[1], 'confirmed case')}`
+          }
+          if (perDayDeaths[o[0]]) {
+						summary += o[1] && perDayRecovered[o[0]] ? ', ' : o[1] ? ' and ' : ''
+            summary += `${isPlural('deaths', perDayDeaths[o[0]], 'death')}`
+          }
+          if (perDayRecovered[o[0]]) {
+            summary += o[1] || perDayDeaths[o[0]] ? ' and ' : ''
+            summary += `<span class="recovered">${perDayRecovered[o[0]]}</span> recovered`
+          }
+        }
+        return {
+          timestamp: formatDate(o[0]),
+          summary: summary + '.'
+        }
+      })
+      return perDayCases.filter(o => o.summary !== '.')
+    }
+		state.result = {
+			title: title,
+			latest: result.latest,
+			series: series(),
+			timeline: timeline()
+		}
 	},
 	SET_COUNTRIES: (state, data) => {
 		const groupProvinceByCountry = (array, key) => {
