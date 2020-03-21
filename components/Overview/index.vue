@@ -13,8 +13,20 @@
     </div>
     <div class="content">
       <div class="section cases">
-        <p>Known Cases</p>
-        <Latest :data="result.latest" :invert="true" />
+        <ul class="list">
+          <li>
+            <p>Known Cases</p>
+            <Latest :data="result.latest" :invert="true" />
+          </li>
+          <li class="rates rates--mortality">
+            <p>Mortality Rate</p>
+            <p class="percentage">{{ result.mortality_rate }}%</p>
+          </li>
+          <li class="rates rates--recovered">
+            <p>Recovered Rate</p>
+            <p class="percentage">{{ result.recovered_rate }}%</p>
+          </li>
+        </ul>
       </div>
       <div class="section chart">
         <p>Timeline</p>
@@ -148,7 +160,7 @@ export default {
   }
 
   .section {
-    margin-top: 24px;
+    margin-top: 16px;
     
     &:first-of-type {
       margin-top: 0;
@@ -162,6 +174,34 @@ export default {
         margin-top: 8px;
         font-size: 14px;
         color: #666666;
+      }
+    }
+
+    .list {
+      margin: 0;
+      padding: 0;
+
+      @media only screen and (min-width: 768px) {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      li {
+        display: block;
+        margin-top: 16px;
+
+        @media only screen and (min-width: 768px) {
+          margin-top: 0;
+        }
+
+        &:first-child {
+          margin-top: 0;
+        }
+
+        & > p {
+          font-size: 24px;
+          font-weight: 300;
+        }
       }
     }
   }
@@ -180,6 +220,27 @@ export default {
           margin-left: 12px;
           margin-top: 8px;
         }
+      }
+    }
+  }
+
+  .rates {
+
+    &--mortality {
+      font-weight: 700;
+
+      .percentage {
+        margin-top: 8px;
+        color: #b20000;
+      }
+    }
+
+    &--recovered {
+      font-weight: 700;
+
+      .percentage {
+        margin-top: 8px;
+        color: #66a266;
       }
     }
   }

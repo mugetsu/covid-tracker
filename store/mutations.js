@@ -84,6 +84,7 @@ export default {
 		state.latest = latest
 	},
 	SET_RESULT: (state, result) => {
+		const latest = result.latest
 		const title = result.province ? `${result.province}, ${result.country}` : result.country
 		const series = _ => {
 			const timelineConfirmed = Object.entries(result.timelines.confirmed.timeline).map(o => o)
@@ -153,12 +154,17 @@ export default {
         }
       })
       return perDayCases.filter(o => o.summary !== '.')
-    }
+		}
+		const getPercentage = (data, b) => (data / b) * 100
+		const mortality_rate = getPercentage(latest.deaths, latest.confirmed)
+		const recovered_rate = getPercentage(latest.recovered, latest.confirmed)
 		state.result = {
 			title: title,
-			latest: result.latest,
+			latest: latest,
 			series: series(),
-			timeline: timeline()
+			timeline: timeline(),
+			mortality_rate: mortality_rate.toFixed(2),
+			recovered_rate: recovered_rate.toFixed(2)
 		}
 	},
 	SET_COUNTRIES: (state, data) => {
