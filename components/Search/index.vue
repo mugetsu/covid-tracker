@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div class="search" :class="{ 'is-open': openSuggestion }">
+    <div class="search" :class="{
+      'is-open': openSuggestion,
+      'has-selected': hasSelected,
+      'has-province': hasSelected && provinces.length && provinces[0].province
+      }">
       <div class="search-container">
         <div class="countries-wrapper">
           <input
@@ -14,11 +18,7 @@
             @input="change"
           />
         </div>
-        <div
-          class="provinces-wrapper"
-          :class="{
-            'is-show': hasSelected && provinces.length && provinces[0].province
-          }">
+        <div class="provinces-wrapper">
           <select
             ref="provinces"
             @focus="onFocus"
@@ -94,6 +94,9 @@ export default {
       return (
         this.country !== '' && this.matches.length != 0 && this.open
       )
+    },
+    isProvinceFocus() {
+      return this.$refs.provinces && this.hasSelected && this.provinces.length && this.provinces[0].province
     }
   },
   data() {
@@ -124,7 +127,7 @@ export default {
           value: this.country
         })
         this.$nextTick(_ => {
-          if (this.$refs.provinces) this.$refs.provinces.focus()
+          if (this.isProvinceFocus) this.$refs.provinces.focus()
         })
       }
     },
@@ -154,7 +157,9 @@ export default {
       this.tempValue = this.country
       this.open = false
       this.hasSelected = true
-      if (this.$refs.provinces) this.$refs.provinces.focus()
+      if (this.isProvinceFocus) {
+        this.$refs.provinces.focus()
+      }
       this.$gtag('event', 'click', {
         event_category: 'select',
         event_label: 'select click',
@@ -203,7 +208,7 @@ export default {
   position: absolute;
   left: 50%;
   bottom: 56px;
-  z-index: 1;
+  z-index: 10;
   padding: 0;
   width: calc(100% - 48px);
   transform: translateX(-50%);
@@ -224,14 +229,45 @@ export default {
     }
   }
 
+  &.has-selected {
+
+    button {
+      border-radius: 0 0 4px 4px;
+    }
+    
+    .countries-wrapper {
+      border-radius: 4px 4px  0 0;
+      transform: translateY(calc(100% + 2px));
+    }
+
+    .provinces-wrapper {
+      border-radius: 4px 4px  0 0;
+      box-shadow: none;
+      transform: translateY(0%);
+    }
+  }
+
+  &.has-province {
+
+    .countries-wrapper {
+      transform: translateY(2px);
+    }
+
+    .provinces-wrapper {
+      transform: translateY(-2px);
+    }
+  }
+
   button {
     position:relative;
+    z-index: 7;
     top: 0px;
     border: none;
     color: #f2f2f2;
     border-radius: 4px;
     padding: 8px 16px;
     width: 100%;
+    height: 52px;
     font-size: 18px;
     background-color: #3232ff;
     box-shadow: 0px 6px 2px -1px rgba(0, 0, 0, 0.2);
@@ -248,11 +284,15 @@ export default {
 
   .countries-wrapper,
   .provinces-wrapper {
+    position: relative;
+    z-index: 9;
     border-radius: 4px;
-    margin: 0 auto 12px;
+    margin: 0 auto;
     padding: 12px 16px;
     background-color: #ffffff;
     box-shadow: 0px 6px 2px -1px rgba(0, 0, 0, 0.2);
+    transform: translateY(100%);
+    transition: 0.6s cubic-bezier(0.83, 0, 0.17, 1);
 
     input,
     select {
@@ -262,20 +302,22 @@ export default {
       font-size: 24px;
       width: 100%;
       background-color: transparent;
+      outline: none;
     }
   }
 
-  .provinces-wrapper {
-    display: none;
+  .countries-wrapper {
+    transform: translateY(calc(200% + 2px));
+  }
 
-    &.is-show {
-      display: block;
-    }
+  .provinces-wrapper {
+    transform: translateY(calc(100% - 1px));
+    z-index: 6;
   }
 
   .dropdown-menu {
     position: absolute;
-    top: -1px;
+    top: calc(100% - 52px);
     margin: 0;
     padding: 0;
     display: none;
