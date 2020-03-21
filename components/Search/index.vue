@@ -47,7 +47,7 @@
           </svg>
         </button>
       </div>
-      <ul class="dropdown-menu">
+      <ul ref="dropdown" class="dropdown-menu">
         <li
           v-for="(suggestion, index) in matches"
           :key="index"
@@ -132,10 +132,16 @@ export default {
       }
     },
     up() {
-      if (this.current > 0) this.current--
+      if (this.current > 0) {
+        this.current--
+        this.onKeyPress()
+      }
     },
     down() {
-      if (this.current < this.matches.length - 1) this.current++
+      if (this.current < this.matches.length - 1) {
+        this.current++
+        this.onKeyPress()
+      }
     },
     isActive(index) {
       return index === this.current
@@ -177,7 +183,6 @@ export default {
             value: this.locationId
           })
         })
-
     },
     onFocus(e) {
       if (e.target.value) {
@@ -196,6 +201,13 @@ export default {
         event_category: 'province',
         event_label: 'province change',
         value: this.locationId
+      })
+    },
+    onKeyPress() {
+      this.$nextTick(_ => {
+        const parentHeight = parseFloat(getComputedStyle(this.$refs.dropdown, null).height.replace('px', ''))
+        this.$refs.dropdown.scrollTop = 0
+        this.$refs.dropdown.scrollTop = (document.querySelector('li.is-active').offsetTop + 40) - parentHeight
       })
     }
   }

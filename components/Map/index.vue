@@ -29,8 +29,6 @@ export default {
         zoom: 1.6
       })
 
-      map.addControl(new mapboxgl.NavigationControl())
-
       const addLayers = map => {
         map.addSource('covid', {
           type: 'geojson',
@@ -182,13 +180,6 @@ export default {
   bottom: 0;
   width: 100%;
   height: 100%;
-
-  .mapboxgl-ctrl-top-right {
-    .mapboxgl-ctrl {
-      margin-top: 24px;
-      margin-right: 24px;
-    }
-  }
 
   .mapboxgl-ctrl-bottom-left {
     .mapboxgl-ctrl {
