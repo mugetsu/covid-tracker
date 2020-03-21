@@ -16,6 +16,7 @@ export default {
       const mapboxgl = require('mapbox-gl/dist/mapbox-gl')
       mapboxgl.accessToken = token
 
+      let popup
       let totals
       let markers = {}
       let markersOnScreen = {}
@@ -93,11 +94,48 @@ export default {
         })
       }
 
-      map.on('style.load', function() {
-        addLayers(map)
-      })
+      const getTitle = e => {
+        const country = e.features[0].properties.country
+        const province = e.features[0].properties.province
+        const title = (province ? `${province}, ` : '') + country
+        return title
+      }
 
-      map.on('click', 'clusters', function(e) {
+      const showPopup = (title, e) => {
+        let coordinates = e.features[0].geometry.coordinates.slice()
+        const cc = e.features[0].properties.confirmed_count
+        const rc = e.features[0].properties.recovered_count
+        const dc = e.features[0].properties.dead_count
+
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360
+        }
+
+        popup = new mapboxgl.Popup()
+          .setLngLat(coordinates)
+          .setHTML(`
+            <div class="popup">
+              <p class="popup_title">${title}</p>
+              <div class="popup_item item_confirmed">
+                <span>Confirmed</span>
+                <span class="value">${cc}</span>
+              </div>
+              <div class="popup_item item_recovered">
+                <span>Recovered</span>
+                <span class="value">${rc}</span>
+              </div>
+              <div class="popup_item item_dead">
+                <span>Dead</span>
+                <span class="value">${dc}</span>
+              </div>
+            </div>
+          `)
+          .addTo(map)
+      }
+
+      map.on('style.load', _ => addLayers(map))
+
+      map.on('click', 'clusters', e => {
         var features = map.queryRenderedFeatures(e.point, {
           layers: ['clusters']
         })
@@ -120,40 +158,9 @@ export default {
         })
       })
 
-      map.on('click', 'unclustered-point', function(e) {
-        let coordinates = e.features[0].geometry.coordinates.slice()
-        const country = e.features[0].properties.country
-        const province = e.features[0].properties.province
-        const title = (province ? `${province}, ` : '') + country
-        const cc = e.features[0].properties.confirmed_count
-        const rc = e.features[0].properties.recovered_count
-        const dc = e.features[0].properties.dead_count
-
-        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360
-        }
-
-        new mapboxgl.Popup()
-          .setLngLat(coordinates)
-          .setHTML(`
-            <div class="popup">
-              <p class="popup_title">${title}</p>
-              <div class="popup_item item_confirmed">
-                <span>Confirmed</span>
-                <span class="value">${cc}</span>
-              </div>
-              <div class="popup_item item_recovered">
-                <span>Recovered</span>
-                <span class="value">${rc}</span>
-              </div>
-              <div class="popup_item item_dead">
-                <span>Dead</span>
-                <span class="value">${dc}</span>
-              </div>
-            </div>
-          `)
-          .addTo(map)
-        
+      map.on('click', 'unclustered-point', e => {
+        const title = getTitle(e)
+        showPopup(title, e)
         self.$gtag('event', 'click', {
           event_category: 'unclustered',
           event_label: 'unclustered click',
@@ -163,8 +170,22 @@ export default {
 
       map.on('mouseenter', 'clusters', _ => map.getCanvas().style.cursor = 'pointer')
       map.on('mouseleave', 'clusters', _ => map.getCanvas().style.cursor = '')
-      map.on('mouseenter', 'unclustered-point', _ => map.getCanvas().style.cursor = 'pointer')
-      map.on('mouseleave', 'unclustered-point', _ => map.getCanvas().style.cursor = '')
+
+      map.on('mouseenter', 'unclustered-point', e => {
+        const title = getTitle(e)
+        showPopup(title, e)
+        map.getCanvas().style.cursor = 'pointer'
+        self.$gtag('event', 'mouseenter', {
+          event_category: 'unclustered',
+          event_label: 'unclustered mouseenter',
+          value: title
+        })
+      })
+
+      map.on('mouseleave', 'unclustered-point', _ => {
+        map.getCanvas().style.cursor = ''
+        popup.remove()
+      })
     }
   },
   mounted() {

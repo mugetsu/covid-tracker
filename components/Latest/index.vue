@@ -93,7 +93,6 @@ $color-recovered: #66a266;
   z-index: 2;
   font-size: 24px;
   color: #ffffff;
-  width: 100%;
 
   ul {
     margin: 24px;

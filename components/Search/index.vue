@@ -250,6 +250,7 @@ export default {
   z-index: 10;
   padding: 0;
   width: calc(100% - 48px);
+  height: 52px;
   transform: translateX(-50%);
 
   @media only screen and (min-width: 768px) {
@@ -263,12 +264,12 @@ export default {
       &.has-province {
 
         .dropdown-menu {
-          transform: translateY(calc(-100% - 100px));
+          transform: translateY(calc(-100% - 104px));
         }  
       }
 
       .dropdown-menu {
-        transform: translateY(calc(-100% - 48px));
+        transform: translateY(calc(-100% - 52px));
       }
     }
 
@@ -281,12 +282,12 @@ export default {
     
     .countries-wrapper {
       border-radius: 4px 4px 0 0;
-      transform: translateY(calc(100% + 2px));
+      transform: translateY(-100%);
     }
 
     .provinces-wrapper {
       box-shadow: none;
-      transform: translateY(2px);
+      transform: translateY(-200%);
     }
 
     button {
@@ -298,13 +299,13 @@ export default {
 
     .countries-wrapper {
       border-radius: 4px 4px 0 0;
-      transform: translateY(2px);
+      transform: translateY(-200%);
     }
 
     .provinces-wrapper {
       border-radius: 4px 4px 0 0;
       box-shadow: 0px 6px 2px -1px rgba(0, 0, 0, 0.2);
-      transform: translateY(0);
+      transform: translateY(-200%);
     }
   }
 
@@ -326,6 +327,7 @@ export default {
     box-shadow: 0px 6px 2px -1px rgba(0, 0, 0, 0.2);
     opacity: 1;
     cursor: pointer;
+    transform: translateY(-200%);
     outline: none;
 
     svg {
@@ -389,11 +391,11 @@ export default {
 
   .countries-wrapper {
     box-shadow: 0px 6px 2px -1px rgba(0, 0, 0, 0.2);
-    transform: translateY(calc(200%));
+    transform: translateY(0);
   }
 
   .provinces-wrapper {
-    transform: translateY(calc(100%));
+    transform: translateY(-100%);
     z-index: 8;
   }
 
