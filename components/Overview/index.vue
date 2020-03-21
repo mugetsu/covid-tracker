@@ -132,7 +132,7 @@ export default {
             summary += `${isPlural('deaths', perDayDeaths[o[0]], 'death')}`
           }
           if (perDayRecovered[o[0]]) {
-            summary += !o[1] || !perDayRecovered[o[0]] ? '' : ' and '
+            summary += !o[1] || !perDayDeaths[o[0]] ? '' : ' and '
             summary += `<span class="recovered">${perDayRecovered[o[0]]}</span> recovered`
           }
         }
