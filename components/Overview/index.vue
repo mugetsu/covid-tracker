@@ -118,6 +118,9 @@ export default {
       const isPlural = (name, total, s) => {
         return `<span class="${name}">${total}</span> ${s}${(total > 1) ? 's' : ''}`
       }
+      const isContinue = (a, b) => {
+        return a && b ? ', ' : a && !b ? ' and ' : ''
+      }
       const perDayConfirmed = this.getPerDay(Object.entries(this.result.timelines.confirmed.timeline))
       const perDayDeaths = this.getPerDay(Object.entries(this.result.timelines.deaths.timeline))
       const perDayRecovered = this.getPerDay(Object.entries(this.result.timelines.recovered.timeline))
@@ -128,11 +131,11 @@ export default {
             summary += `${isPlural('confirmed', o[1], 'confirmed case')}`
           }
           if (perDayDeaths[o[0]]) {
-            summary += o[1] ? ' and ' : ''
+            summary += isContinue(o[1], perDayRecovered[o[0]])
             summary += `${isPlural('deaths', perDayDeaths[o[0]], 'death')}`
           }
           if (perDayRecovered[o[0]]) {
-            summary += !o[1] || !perDayDeaths[o[0]] ? '' : ' and '
+            summary += isContinue(o[1], perDayDeaths[o[0]])
             summary += `<span class="recovered">${perDayRecovered[o[0]]}</span> recovered`
           }
         }
