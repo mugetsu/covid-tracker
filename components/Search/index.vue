@@ -6,7 +6,7 @@
       'has-province': hasSelected && provinces.length && provinces[0].province
       }">
       <div class="search-container">
-        <div class="countries-wrapper">
+        <div class="countries-wrapper" :class="{ 'is-focused': focusedInput }">
           <input
             ref="countries"
             type="text"
@@ -15,13 +15,17 @@
             @keydown.enter="enter"
             @keydown.down="down"
             @keydown.up="up"
+            @focus="focusedInput = true"
+            @blur="focusedInput = false"
             @input="change"
           />
         </div>
-        <div class="provinces-wrapper">
+        <div class="provinces-wrapper" :class="{ 'is-focused': focusedSelect }">
           <select
             ref="provinces"
-            @focus="onFocus"
+            :tabindex="focusedSelect ? '0' : '-1'"
+            @focus="focusedSelect = true"
+            @blur="focusedSelect = false"
             @change="onChange">
             <option 
               label="Select State"
@@ -37,8 +41,13 @@
         </div>
         <button
           ref="search"
-          :class="{ 'is-disabled': !hasSelected }"
+          :class="{
+            'is-disabled': !hasSelected,
+            'is-focused': focusedButton
+          }"
           :disabled="!hasSelected"
+          @focus="focusedButton = true"
+          @blur="focusedButton = false"
           @click="onSearch">
           <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
             width="30" height="30"
@@ -108,7 +117,10 @@ export default {
       provinces: [],
       locationId: null,
       tempValue: null,
-      hasSelected: false
+      hasSelected: false,
+      focusedInput: false,
+      focusedSelect: false,
+      focusedButton: false
     }
   },
   methods: {
@@ -126,9 +138,7 @@ export default {
           event_label: 'input enter',
           value: this.country
         })
-        this.$nextTick(_ => {
-          if (this.isProvinceFocus) this.$refs.provinces.focus()
-        })
+        if (this.isProvinceFocus) this.$refs.provinces.focus()
       }
     },
     up() {
@@ -163,9 +173,7 @@ export default {
       this.tempValue = this.country
       this.open = false
       this.hasSelected = true
-      if (this.isProvinceFocus) {
-        this.$refs.provinces.focus()
-      }
+      if (this.isProvinceFocus) this.$refs.provinces.focus()
       this.$gtag('event', 'click', {
         event_category: 'select',
         event_label: 'select click',
@@ -184,7 +192,7 @@ export default {
           })
         })
     },
-    onFocus(e) {
+    onSelectFocus(e) {
       if (e.target.value) {
         this.locationId = e.target.value
         this.$gtag('event', 'focus', {
@@ -231,13 +239,26 @@ export default {
 
   &.is-open {
 
+    &.has-selected {
+
+      &.has-province {
+
+        .dropdown-menu {
+          transform: translateY(calc(-100% - 104px));
+        }  
+      }
+
+      .dropdown-menu {
+        transform: translateY(calc(-100% - 54px));
+      }
+    }
+
     .countries-wrapper {
       border-radius: 0 0 4px 4px;
     }
 
     .dropdown-menu {
       display: block;
-      border-radius: 4px 4px 0 0;
     }
   }
 
@@ -255,7 +276,7 @@ export default {
     .provinces-wrapper {
       border-radius: 4px 4px  0 0;
       box-shadow: none;
-      transform: translateY(0%);
+      transform: translateY(3px);
     }
   }
 
@@ -266,7 +287,8 @@ export default {
     }
 
     .provinces-wrapper {
-      transform: translateY(-2px);
+      box-shadow: 0px 6px 2px -1px rgba(0, 0, 0, 0.2);
+      transform: translateY(0);
     }
   }
 
@@ -278,14 +300,30 @@ export default {
     color: #f2f2f2;
     border-radius: 4px;
     padding: 8px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 52px;
     font-size: 18px;
     background-color: #3232ff;
     box-shadow: 0px 6px 2px -1px rgba(0, 0, 0, 0.2);
     opacity: 1;
-    transition: 0.5s ease;
     cursor: pointer;
+    outline: none;
+
+    svg {
+      transform: scale(0.8);
+      transition: 0.6s cubic-bezier(0.83, 0, 0.17, 1);
+    }
+
+    &.is-focused {
+      background-color: #1919ff;
+
+      svg {
+        transform: scale(1.2);
+      }
+    }
 
     &.is-disabled {
       opacity: 0.2;
@@ -301,8 +339,8 @@ export default {
     border-radius: 4px;
     margin: 0 auto;
     padding: 12px 16px;
-    background-color: #ffffff;
-    box-shadow: 0px 6px 2px -1px rgba(0, 0, 0, 0.2);
+    height: 28px;
+    background-color: #dddddd;
     transform: translateY(100%);
     transition: 0.6s cubic-bezier(0.83, 0, 0.17, 1);
 
@@ -316,9 +354,14 @@ export default {
       background-color: transparent;
       outline: none;
     }
+
+    &.is-focused {
+      background-color: #ffffff;
+    }
   }
 
   .countries-wrapper {
+    box-shadow: 0px 6px 2px -1px rgba(0, 0, 0, 0.2);
     transform: translateY(calc(200% + 2px));
 
     @media only screen and (min-width: 768px) {
@@ -328,12 +371,13 @@ export default {
 
   .provinces-wrapper {
     transform: translateY(calc(100% - 1px));
-    z-index: 6;
+    z-index: 8;
   }
 
   .dropdown-menu {
     position: absolute;
     top: calc(100% - 56px);
+    border-radius: 4px;
     margin: 0;
     padding: 0;
     display: none;
