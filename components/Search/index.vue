@@ -308,6 +308,10 @@ export default {
 
   .countries-wrapper {
     transform: translateY(calc(200% + 2px));
+
+    @media only screen and (min-width: 768px) {
+      transform: translateY(calc(200% + 3px));
+    }
   }
 
   .provinces-wrapper {
@@ -317,11 +321,11 @@ export default {
 
   .dropdown-menu {
     position: absolute;
-    top: calc(100% - 52px);
+    top: calc(100% - 56px);
     margin: 0;
     padding: 0;
     display: none;
-    max-height: 240px;
+    max-height: 186px;
     width: 100%;
     overflow: auto;
     transform: translateY(-100%);

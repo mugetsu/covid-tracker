@@ -18,7 +18,7 @@
       </div>
       <div class="section chart">
         <p>Daily</p>
-        <p class="sub">Click chart to view daily cases</p>
+        <p class="sub">Click or Drag chart to view daily cases</p>
         <client-only>
           <apexchart height="350" type="line" :options="chartOptions" :series="series"></apexchart>
         </client-only>
@@ -192,11 +192,11 @@ export default {
     }
 
     & > p {
-      margin-bottom: 8px;
       font-size: 24px;
       font-weight: 300;
 
       &.sub {
+        margin-top: 8px;
         font-size: 14px;
         color: #666666;
       }
@@ -208,15 +208,14 @@ export default {
       position: relative;
 
       ul {
-        margin: 0;
+        display: flex;
+        margin: 0 0 0 -12px;
+        flex-wrap: wrap;
 
         li {
           display: inline-flex;
           margin-left: 12px;
-
-          &:first-child {
-            margin-left: 0;
-          }
+          margin-top: 8px;
         }
       }
     }
