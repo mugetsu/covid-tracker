@@ -30,7 +30,7 @@
       </div>
       <div class="section chart">
         <p>Timeline</p>
-        <p class="sub">Click or Drag chart to view daily cases</p>
+        <p class="sub">Click / Drag chart to view series data</p>
         <client-only>
           <apexchart height="320" type="line" :options="chartOptions" :series="result.series"></apexchart>
         </client-only>
