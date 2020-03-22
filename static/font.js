@@ -1,5 +1,7 @@
 WebFontConfig = {
-	google: { families: [ 'Roboto:300,400,700' ] }
+	google: {
+		families: ['Roboto:300,400,700&display=swap']
+	}
 }
 ;(function(){
 	var wf = document.createElement('script')
