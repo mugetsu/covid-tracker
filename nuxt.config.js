@@ -29,9 +29,9 @@ module.exports = {
       { hid: 'og:url', property: 'og:url', content: 'https://covid-worldwide.herokuapp.com' }
     ],
     link: [
-      { rel: 'preconnect', href: 'https://api.mapbox.com', crossorigin: true },
-      { rel: 'preconnect', href: 'https://www.google-analytics.com', crossorigin: true },
-      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: true },
+      { rel: 'preconnect', href: 'https://api.mapbox.com', crossorigin: 'anonymous' },
+      { rel: 'preconnect', href: 'https://www.google-analytics.com', crossorigin: 'anonymous' },
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
