@@ -170,10 +170,16 @@ export default {
 	SET_COUNTRIES: (state, data) => {
 		const groupProvinceByCountry = (array, key) => {
 			return array.reduce((result, currentValue) => {
-				;(result[currentValue[key]] = result[currentValue[key]] || []).push({
-					id: currentValue.id,
-					province: currentValue.province
-				})
+				if (
+					currentValue.latest.confirmed
+					|| currentValue.latest.deaths
+					|| currentValue.latest.recovered
+				) {
+					;(result[currentValue[key]] = result[currentValue[key]] || []).push({
+						id: currentValue.id,
+						province: currentValue.province
+					})
+				}
 				return result
 			}, {})
 		}
