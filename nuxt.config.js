@@ -29,7 +29,6 @@ module.exports = {
       { hid: 'og:url', property: 'og:url', content: 'https://covid-worldwide.herokuapp.com' }
     ],
     link: [
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },

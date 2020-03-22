@@ -30,6 +30,11 @@ const Overview = () => import('~/components/Overview')
 const Map = () => import('~/components/Map')
 
 export default {
+  head: {
+    script: [
+      { src: 'font.js', body: true }
+    ]
+  },
   components: {
     LazyHydrate,
     Latest,
