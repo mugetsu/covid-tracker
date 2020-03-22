@@ -52,7 +52,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Latest from '~/components/Latest'
+const Latest = () => import('~/components/Latest')
 
 export default {
   name: 'Overview',

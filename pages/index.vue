@@ -1,27 +1,37 @@
 <template>
   <div class="page" :class="{ 'is-open': isOpen }">
-    <Latest :data="latest" size="large" />
-    <Search @search="onToggle" />
-    <div class="overview-wrapper">
-      <div class="overview-background">
-        <Overview v-if="isOpen" @close="onToggle" />
+    <LazyHydrate ssr-only :trigger-hydration="!!latest">
+      <Latest :data="latest" size="large" />
+    </LazyHydrate>
+    <LazyHydrate when-idle>
+      <Search @search="onToggle" />
+    </LazyHydrate>
+    <LazyHydrate ssr-only :trigger-hydration="isOpen">
+      <div class="overview-wrapper">
+        <div class="overview-background">
+          <Overview @close="onToggle" />
+        </div>
       </div>
-    </div>
-    <div class="map-wrapper">
-      <Map :data="data" />
-    </div>
+    </LazyHydrate>
+    <LazyHydrate when-idle>
+      <div class="map-wrapper">
+        <Map :data="data" />
+      </div>
+    </LazyHydrate>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import Latest from '~/components/Latest'
-import Search from '~/components/Search'
-import Overview from '~/components/Overview'
-import Map from '~/components/Map'
+import LazyHydrate from 'vue-lazy-hydration'
+const Latest = () => import('~/components/Latest')
+const Search = () => import('~/components/Search')
+const Overview = () => import('~/components/Overview')
+const Map = () => import('~/components/Map')
 
 export default {
   components: {
+    LazyHydrate,
     Latest,
     Search,
     Overview,
