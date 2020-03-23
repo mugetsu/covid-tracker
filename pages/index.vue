@@ -100,7 +100,7 @@ export default {
   top: 24px;
   z-index: 1;
   max-width: 75px;
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.8);
   font-size: 10px;
   text-align: right;
   text-transform: uppercase;
