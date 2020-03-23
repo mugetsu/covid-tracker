@@ -135,7 +135,7 @@ export default {
       return this.result.timeline.length
     },
     totalPage() {
-      return this.totalDaily / this.perPage
+      return Math.ceil(this.totalDaily / this.perPage)
     }
   },
   data() {
