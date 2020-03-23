@@ -3,18 +3,12 @@ export default () => ({
   latest: {},
   countries: {},
   result: {
-    country: '',
-    province: '',
-    timelines: {
-      confirmed: {
-        timeline: {}
-      },
-      deaths: {
-        timeline: {}
-      },
-      recovered: {
-        timeline: {}
-      }
-    }
+    title: '',
+    latest: {},
+    last_updated: '',
+    series: [],
+    timeline: [],
+    mortality_rate: 0,
+    recovered_rate: 0
   }
 })

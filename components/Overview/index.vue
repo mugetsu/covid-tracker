@@ -42,12 +42,37 @@
         <p>Daily</p>
         <ul>
           <li
-            v-for="(item, index) in result.timeline"
+            v-for="(item, index) in timeline"
             :key="index">
             <span class="timestamp">{{ item.timestamp.month }} {{ item.timestamp.date }}, {{ item.timestamp.year }}</span>
             <span class="summary" v-html="item.summary" />
           </li>
         </ul>
+        <div class="pagination">
+          <button
+            class="controls prev"
+            :class="{ 'is-disabled': currentPage <= 1 }"
+            :disabled="currentPage <= 1"
+            @click="previous">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+              width="40" height="40"
+              viewBox="0 0 172 172"
+              style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#000000"><path d="M86,14.33333c-39.5815,0 -71.66667,32.08517 -71.66667,71.66667c0,39.5815 32.08517,71.66667 71.66667,71.66667c39.5815,0 71.66667,-32.08517 71.66667,-71.66667c0,-39.5815 -32.08517,-71.66667 -71.66667,-71.66667zM78.83333,122.34217l-10.75,-10.75l25.59217,-25.59217l-25.59217,-25.59217l10.75,-10.75l36.34217,36.34217z"></path></g></g>
+            </svg>
+          </button>
+          <span>{{ currentPage }} / {{ totalPage }}</span>
+          <button
+            class="controls next"
+            :class="{ 'is-disabled': currentPage >= totalPage }"
+            :disabled="currentPage >= totalPage"
+            @click="next">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+              width="40" height="40"
+              viewBox="0 0 172 172"
+              style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#000000"><path d="M86,14.33333c-39.5815,0 -71.66667,32.08517 -71.66667,71.66667c0,39.5815 32.08517,71.66667 71.66667,71.66667c39.5815,0 71.66667,-32.08517 71.66667,-71.66667c0,-39.5815 -32.08517,-71.66667 -71.66667,-71.66667zM78.83333,122.34217l-10.75,-10.75l25.59217,-25.59217l-25.59217,-25.59217l10.75,-10.75l36.34217,36.34217z"></path></g></g>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -102,12 +127,44 @@ export default {
           horizontalAlign: 'left'
         }
       }
+    },
+    getTimeline() {
+      return this.result.timeline
+    },
+    totalDaily() {
+      return this.result.timeline.length
+    },
+    totalPage() {
+      return this.totalDaily / this.perPage
+    }
+  },
+  data() {
+    return {
+      perPage: 6,
+      currentPage: 1,
+      timeline: []
     }
   },
   methods: {
     onClose() {
       this.$emit('close')
+    },
+    paginate(a, perPage, page) {
+      return a.slice(perPage * (page - 1), perPage * page)
+    },
+    previous() {
+      if (this.currentPage >= 1) {
+        this.timeline = this.paginate(this.getTimeline, this.perPage, --this.currentPage)
+      }
+    },
+    next() {
+      if (this.currentPage <= this.totalDaily) {
+        this.timeline = this.paginate(this.getTimeline, this.perPage, ++this.currentPage)
+      }
     }
+  },
+  mounted() {
+    this.timeline = this.paginate(this.getTimeline, this.perPage, 1)
   }
 }
 </script>
@@ -308,6 +365,41 @@ export default {
     .recovered {
       font-weight: 700;
       color: #66a266;
+    }
+
+    .pagination {
+      text-align: center;
+
+      span {
+        display: inline-block;
+        margin: 8px 0;
+        line-height: 40px;
+        vertical-align: top;
+      }
+    }
+    
+    .controls {
+      border: 0;
+      margin: 8px 4px;
+      padding: 0;
+      width: 40px;
+      height: 40px;
+      display: inline-block;
+      vertical-align: top;
+      background: none;
+      cursor: pointer;
+      outline: none;
+
+      &.is-disabled {
+        opacity: 0.6;
+      }
+
+      &.prev {
+
+         svg {
+           transform: rotate(-180deg);
+         }
+      }
     }
   }
 }
