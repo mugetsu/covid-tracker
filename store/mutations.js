@@ -33,52 +33,6 @@ export default {
 			}
 		})	
 		state.data = dataCollection
-		// const timeSince = (date) => {
-		// 	let seconds = Math.floor((new Date() - date) / 1000)
-		// 	let interval = Math.floor(seconds / 31536000)
-		// 	if (interval > 1) {
-		// 		return interval + ' years'
-		// 	}
-		// 	interval = Math.floor(seconds / 2592000)
-		// 	if (interval > 1) {
-		// 		return interval + ' months'
-		// 	}
-		// 	interval = Math.floor(seconds / 86400)
-		// 	if (interval > 1) {
-		// 		return interval + ' days'
-		// 	}
-		// 	interval = Math.floor(seconds / 3600)
-		// 	if (interval > 1) {
-		// 		return interval + ' hours'
-		// 	}
-		// 	interval = Math.floor(seconds / 60)
-		// 	if (interval > 1) {
-		// 		return interval + ' minutes'
-		// 	}
-		// 	return Math.floor(seconds) + ' seconds'
-		// }
-		// const lastUpdate = (history) => {
-		// 	const last = new Date(
-		// 		Math.max.apply(
-		// 			null,
-		// 			Object.keys(history).map((d) => {
-		// 				return new Date(d)
-		// 			})
-		// 		)
-		// 	)
-		// 	return timeSince(last) + ' ago'
-		// }
-		// const sortDate = dates => {
-		// 	const sorted_date = {}
-		// 	Object.keys(dates)
-		// 		.sort((a, b) => {
-		// 			return new Date(a) - new Date(b)
-		// 		})
-		// 		.forEach(key => {
-		// 			sorted_date[key] = dates[key]
-		// 		})
-		// 	return sorted_date
-		// }
 	},
 	SET_LATEST: (state, latest) => {
 		state.latest = latest
@@ -86,6 +40,30 @@ export default {
 	SET_RESULT: (state, result) => {
 		const latest = result.latest
 		const title = result.province ? `${result.province}, ${result.country}` : result.country
+		const timeSince = (date) => {
+			let seconds = Math.floor((new Date() - new Date(date)) / 1000)
+			let interval = Math.floor(seconds / 31536000)
+			if (interval > 1) {
+				return interval + ' years'
+			}
+			interval = Math.floor(seconds / 2592000)
+			if (interval > 1) {
+				return interval + ' months'
+			}
+			interval = Math.floor(seconds / 86400)
+			if (interval > 1) {
+				return interval + ' days'
+			}
+			interval = Math.floor(seconds / 3600)
+			if (interval > 1) {
+				return interval + ' hours'
+			}
+			interval = Math.floor(seconds / 60)
+			if (interval > 1) {
+				return interval + ' minutes'
+			}
+			return Math.floor(seconds) + ' seconds'
+		}
 		const series = _ => {
 			const timelineConfirmed = Object.entries(result.timelines.confirmed.timeline).map(o => o)
       const timelineDeaths = Object.entries(result.timelines.deaths.timeline).map(o => o)
@@ -161,6 +139,7 @@ export default {
 		state.result = {
 			title: title,
 			latest: latest,
+			last_updated: timeSince(result.last_updated),
 			series: series(),
 			timeline: timeline(),
 			mortality_rate: mortality_rate.toFixed(2),

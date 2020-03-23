@@ -1,7 +1,10 @@
 <template>
   <div class="page" :class="{ 'is-open': isOpen }">
     <LazyHydrate ssr-only :trigger-hydration="!!latest">
-      <Latest :data="latest" size="large" />
+      <div>
+        <Latest :data="latest" size="large" />
+        <p class="reference">Data from <a href="https://github.com/CSSEGISandData/COVID-19">JHU CSSE</a></p>
+      </div>
     </LazyHydrate>
     <LazyHydrate when-idle>
       <Search @search="onToggle" />
@@ -88,6 +91,29 @@ export default {
         animation: blowUpMap .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
       }
     }
+  }
+}
+
+.reference {
+  position: absolute;
+  right: 24px;
+  top: 24px;
+  z-index: 1;
+  max-width: 75px;
+  color: #ffffff;
+  font-size: 10px;
+  text-align: right;
+  text-transform: uppercase;
+  line-height: 14px;
+
+  a {
+    display: block;
+    border: 1px solid #ffffff;
+    border-radius: 4px;
+    margin-top: 2px;
+    padding: 2px;
+    color: #ffffff;
+    text-decoration: none;
   }
 }
 

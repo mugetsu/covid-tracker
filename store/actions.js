@@ -17,7 +17,7 @@ export default {
   async getOverviewByCountry({ commit }, id) {
     await this.$axios
       .get(
-        process.env.NODE_ENV !== 'production' ? 'location-14.json' : `/locations/${id}`
+        process.env.NODE_ENV !== 'production' ? 'location-16.json' : `/locations/${id}`
       )
       .then(res => {
         if (res.status === 200) {

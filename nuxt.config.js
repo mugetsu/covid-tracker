@@ -33,6 +33,8 @@ module.exports = {
       { rel: 'preconnect dns-prefetch', href: 'https://www.google-analytics.com', crossorigin: 'anonymous' },
       { rel: 'preconnect dns-prefetch', href: 'https://ajax.googleapis.com', crossorigin: 'anonymous' },
       { rel: 'preconnect dns-prefetch', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
+      { rel: 'preconnect dns-prefetch', href: 'https://fonts.googleapis.com', crossorigin: 'anonymous' },
+      { rel: 'preconnect dns-prefetch', href: 'https://cdn.jsdelivr.net', crossorigin: 'anonymous' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },

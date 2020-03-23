@@ -1,7 +1,10 @@
 <template>
   <div class="overview">
     <div class="title">
-      {{ result.title }}
+      <h2>
+        {{ result.title }}
+        <span class="last-update">Last update {{ result.last_updated }} ago</span>
+      </h2>
       <a class="close" href="#" @click.prevent="onClose">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
           <g opacity="0.3">
@@ -149,11 +152,23 @@ export default {
     position: sticky;
     top: 0;
     z-index: 10;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 12px;
-    padding: 32px 0 8px;
-    font-size: 32px;
     background: white;
+
+    h2 {
+      border-bottom: 1px solid #cccccc;
+      margin: 0 0 12px;
+      padding: 32px 26px 8px 0;
+      font-size: 32px;
+    }
+
+    .last-update {
+      display: block;
+      padding-top: 4px;
+      font-size: 12px;
+      font-weight: 300;
+      text-transform: uppercase;
+      color: #666666;
+    }
   }
 
   .section {
