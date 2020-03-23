@@ -12,7 +12,7 @@
     <LazyHydrate ssr-only :trigger-hydration="isOpen">
       <div class="overview-wrapper">
         <div class="overview-background">
-          <Overview @close="onToggle" />
+          <Overview v-if="isOpen" @close="onToggle" />
         </div>
       </div>
     </LazyHydrate>
