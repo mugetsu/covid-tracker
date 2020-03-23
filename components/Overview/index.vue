@@ -210,16 +210,7 @@ export default {
     margin: 0 0 12px;
     padding: 32px 26px 8px 0;
     font-size: 32px;
-    background: white;
-
-    // .last-update {
-    //   display: block;
-    //   padding-top: 4px;
-    //   font-size: 12px;
-    //   font-weight: 300;
-    //   text-transform: uppercase;
-    //   color: #666666;
-    // }
+    background: #ffffff;
   }
 
   .section {
@@ -241,7 +232,7 @@ export default {
     }
 
     .list {
-      margin: 0;
+      margin: 0 -4px;
       padding: 0;
 
       @media only screen and (min-width: 768px) {
@@ -252,6 +243,7 @@ export default {
       li {
         display: block;
         margin-top: 16px;
+        padding: 0 4px;
 
         @media only screen and (min-width: 768px) {
           margin-top: 0;
