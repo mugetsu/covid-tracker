@@ -120,14 +120,14 @@ export default {
                 <span>Confirmed</span>
                 <span class="value">${cc}</span>
               </div>
-              <div class="popup_item item_recovered">
-                <span>Recovered</span>
-                <span class="value">${rc}</span>
-              </div>
               <div class="popup_item item_dead">
                 <span>Dead</span>
                 <span class="value">${dc}</span>
               </div>
+              <!-- <div class="popup_item item_recovered">
+                <span>Recovered</span>
+                <span class="value">${rc}</span>
+              </div> -->
             </div>
           `)
           .addTo(map)

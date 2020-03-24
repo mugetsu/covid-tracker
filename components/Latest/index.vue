@@ -25,7 +25,7 @@
           />
         </span>
       </li>
-      <li>
+      <!-- <li>
         <span class="icon icon--recovered">
           <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 172 172" style=" fill:#000000;" data-v-691393b9=""><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal" data-v-691393b9=""><path d="M0,172v-172h172v172z" fill="none" data-v-691393b9=""></path><g fill="#ffffff" data-v-691393b9=""><path d="M86,103.30033l-33.7335,-33.7335l10.13367,-10.13367l23.59983,23.59983l54.58133,-54.58133c-6.34967,-4.37883 -14.03233,-6.95167 -22.33133,-6.95167c-20.7475,0 -32.25,14.97833 -32.25,14.97833c0,0 -11.5025,-14.97833 -32.25,-14.97833c-21.77233,0 -39.41667,17.64433 -39.41667,39.41667c0,29.89217 35.20267,58.85983 45.01383,68.01167c11.30183,10.535 26.65283,24.08 26.65283,24.08c0,0 15.351,-13.545 26.65283,-24.08c9.81117,-9.15183 45.01383,-38.1195 45.01383,-68.01167c0,-8.299 -2.57283,-15.98167 -6.95167,-22.33133z" data-v-691393b9=""></path></g></g></svg>
         </span>
@@ -36,7 +36,7 @@
             :duration="duration"
           />
         </span>
-      </li>
+      </li> -->
     </ul>
   </div>
 </template>

@@ -22,10 +22,10 @@
             <p>Mortality Rate</p>
             <p class="percentage">{{ result.mortality_rate }}%</p>
           </li>
-          <li class="rates rates--recovered">
+          <!-- <li class="rates rates--recovered">
             <p>Recovered Rate</p>
             <p class="percentage">{{ result.recovered_rate }}%</p>
-          </li>
+          </li> -->
         </ul>
       </div>
       <div class="section chart">
