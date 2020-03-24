@@ -67,7 +67,7 @@ export default {
 		const series = _ => {
 			const timelineConfirmed = Object.entries(result.timelines.confirmed.timeline).map(o => o)
       const timelineDeaths = Object.entries(result.timelines.deaths.timeline).map(o => o)
-      const timelineRecovered = Object.entries(result.timelines.recovered.timeline).map(o => o)
+      // const timelineRecovered = Object.entries(result.timelines.recovered.timeline).map(o => o)
       return [
         {
           name: 'Confirmed',
@@ -76,11 +76,11 @@ export default {
         {
           name: 'Deaths',
           data: timelineDeaths
-        },
-        {
-          name: 'Recovered',
-          data: timelineRecovered
         }
+        // {
+        //   name: 'Recovered',
+        //   data: timelineRecovered
+        // }
       ]
 		}
 		const timeline = () => {
