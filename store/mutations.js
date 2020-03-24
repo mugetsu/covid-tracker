@@ -110,21 +110,21 @@ export default {
 			}
       const perDayConfirmed = getPerDay(Object.entries(result.timelines.confirmed.timeline))
       const perDayDeaths = getPerDay(Object.entries(result.timelines.deaths.timeline))
-      const perDayRecovered = getPerDay(Object.entries(result.timelines.recovered.timeline))
+      // const perDayRecovered = getPerDay(Object.entries(result.timelines.recovered.timeline))
       const perDayCases = Object.entries(perDayConfirmed).map(o => {
         let summary = ''
-        if (o[1] || perDayDeaths[o[0]] || perDayRecovered[o[0]]) {
+        if (o[1] || perDayDeaths[o[0]]) {
           if (o[1]) {
             summary += `${isPlural('confirmed', o[1], 'confirmed case')}`
           }
           if (perDayDeaths[o[0]]) {
-						summary += o[1] && perDayRecovered[o[0]] ? ', ' : o[1] ? ' and ' : ''
+						summary += o[1] ? ' and ' : '' // o[1] && perDayRecovered[o[0]] ? ', ' : o[1] ? ' and ' : ''
             summary += `${isPlural('deaths', perDayDeaths[o[0]], 'death')}`
           }
-          if (perDayRecovered[o[0]]) {
-            summary += o[1] || perDayDeaths[o[0]] ? ' and ' : ''
-            summary += `<span class="recovered">${perDayRecovered[o[0]]}</span> recovered`
-          }
+          // if (perDayRecovered[o[0]]) {
+          //   summary += o[1] || perDayDeaths[o[0]] ? ' and ' : ''
+          //   summary += `<span class="recovered">${perDayRecovered[o[0]]}</span> recovered`
+          // }
         }
         return {
           timestamp: formatDate(o[0]),

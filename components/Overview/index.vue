@@ -232,18 +232,18 @@ export default {
     }
 
     .list {
-      margin: 0 -4px;
+      margin: 0 -16px;
       padding: 0;
 
       @media only screen and (min-width: 768px) {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
       }
 
       li {
         display: block;
         margin-top: 16px;
-        padding: 0 4px;
+        padding: 0 16px;
 
         @media only screen and (min-width: 768px) {
           margin-top: 0;
