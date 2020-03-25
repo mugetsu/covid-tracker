@@ -4,12 +4,12 @@ export default {
       this.$axios.get(
         process.env.NODE_ENV !== 'production'
           ? 'latest.json'
-          : `http://${process.env.HOST}:${process.env.PORT}/api/latest`
+          : `${process.env.DOMAIN}/api/latest`
       ),
       this.$axios.get(
         process.env.NODE_ENV !== 'production'
           ? 'locations.json'
-          : `http://${process.env.HOST}:${process.env.PORT}/api/locations`
+          : `${process.env.DOMAIN}/api/locations`
       )
     ])
       .then(res => {
@@ -26,7 +26,7 @@ export default {
       .get(
         process.env.NODE_ENV !== 'production'
           ? 'location-16.json'
-          : `http://${process.env.HOST}:${process.env.PORT}/api/locations/${id}`
+          : `${process.env.DOMAIN}/api/locations/${id}`
       )
       .then(res => {
         if (res.status === 200) {
