@@ -10,8 +10,10 @@ module.exports = {
   ** Environment variables
   */
   env: {
-    accessToken: process.env.MAPBOX_TOKEN,
-    ga: process.env.GA
+    HOST: process.env.HOST,
+    PORT: process.env.PORT,
+    MAPBOX_TOKEN: process.env.MAPBOX_TOKEN,
+    GA: process.env.GA
   },
 
   /*

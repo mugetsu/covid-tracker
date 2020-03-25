@@ -189,7 +189,7 @@ export default {
     }
   },
   mounted() {
-    if (process.env.accessToken) this.createMap(process.env.accessToken)
+    if (process.env.MAPBOX_TOKEN) this.createMap(process.env.MAPBOX_TOKEN)
   }
 }
 </script>
