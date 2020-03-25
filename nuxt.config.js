@@ -66,7 +66,17 @@ module.exports = {
   ** Axios configuration
   */
   axios: {
-    baseURL: process.env.API_URL
+    proxy: true
+  },
+
+  /*
+  ** Proxy configuration
+  */
+  proxy: {
+    '/api/': {
+      target: process.env.API_URL,
+      pathRewrite: { '^/api/': '' }
+    }
   },
 
   /*

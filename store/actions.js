@@ -2,8 +2,8 @@ export default {
   async nuxtServerInit({ commit }, ctx) {
     await Promise
       .all([
-        this.$axios.get(process.env.NODE_ENV !== 'production' ? 'latest.json' : '/latest'),
-        this.$axios.get(process.env.NODE_ENV !== 'production' ? 'locations.json' : '/locations')
+        this.$axios.get(process.env.NODE_ENV !== 'production' ? 'latest.json' : '/api/latest'),
+        this.$axios.get(process.env.NODE_ENV !== 'production' ? 'locations.json' : '/api/locations')
       ])
       .then(res => {
         commit('SET_LATEST', res[0].data.latest)
@@ -17,7 +17,7 @@ export default {
   async getOverviewByCountry({ commit }, id) {
     await this.$axios
       .get(
-        process.env.NODE_ENV !== 'production' ? 'location-16.json' : `/locations/${id}`
+        process.env.NODE_ENV !== 'production' ? 'location-16.json' : `/api/locations/${id}`
       )
       .then(res => {
         if (res.status === 200) {
