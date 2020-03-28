@@ -102,9 +102,14 @@ export default {
         dataLabels: {
           enabled: false
         },
-        colors: ['#ffa500', '#b20000', '#66a266'],
+        colors: ['#ffa500', '#b20000'],
         stroke: {
-          width: [4, 4, 4]
+          width: [4, 4]
+        },
+        plotOptions: {
+          bar: {
+            columnWidth: "20%"
+          }
         },
         xaxis: {
           type: 'datetime',
@@ -112,16 +117,51 @@ export default {
             format: 'dd MMM'
           }
         },
-        yaxis: {
-          opposite: true,
-          labels: {
-            align: 'right',
-            offsetX: -20
+        yaxis: [
+          {
+            logarithmic: true,
+            axisTicks: {
+              show: true
+            },
+            axisBorder: {
+              show: true,
+              color: "#ffa500"
+            },
+            labels: {
+              style: {
+                colors: "#ffa500"
+              }
+            },
+            title: {
+              style: {
+                color: "#ffa500"
+              }
+            }
+          },
+          {
+            opposite: true,
+            logarithmic: true,
+            axisTicks: {
+              show: true
+            },
+            axisBorder: {
+              show: true,
+              color: "#b20000"
+            },
+            labels: {
+              style: {
+                colors: "#b20000"
+              }
+            },
+            title: {
+              style: {
+                color: "#b20000"
+              }
+            }
           }
-        },
+        ],
         legend: {
-          show: false,
-          horizontalAlign: 'left'
+          show: false
         }
       }
     },

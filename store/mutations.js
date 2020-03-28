@@ -65,9 +65,9 @@ export default {
 			return Math.floor(seconds) + ' seconds'
 		}
 		const series = _ => {
-			const timelineConfirmed = Object.entries(result.timelines.confirmed.timeline).map(o => o)
-      const timelineDeaths = Object.entries(result.timelines.deaths.timeline).map(o => o)
-      // const timelineRecovered = Object.entries(result.timelines.recovered.timeline).map(o => o)
+			const timelineConfirmed = Object.entries(result.timelines.confirmed.timeline).filter(o => o[1] !== 0).map(o => o)
+			const timelineDeaths = Object.entries(result.timelines.deaths.timeline).filter(o => o[1] !== 0).map(o => o)
+			// const timelineRecovered = Object.entries(result.timelines.recovered.timeline).filter(o => o[1] !== 0).map(o => o)
       return [
         {
           name: 'Confirmed',
